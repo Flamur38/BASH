@@ -1,30 +1,6 @@
 #!/usr/bin/env bash
 
-GREEN="\033[0;32m"
-RESET="\033[0m"
-
-# Helper for green status messages
-status() {
-    echo -e "${GREEN}======= $1 =======${RESET}"
-}
-
-# 1. Install Zsh
-status "Installing Zsh"
-sudo apt install -y zsh
-
-# 2. Change default shell to Zsh if not already
-if [[ "$SHELL" != "$(which zsh)" ]]; then
-    status "Changing default shell to zsh"
-    sudo chsh -s "$(which zsh)" "$USER"
-else
-    status "Default shell is already zsh"
-fi
-
-# 3. Install Oh-My-Zsh if not already installed
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    status "Installing Oh-My-Zsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-else
-    status "Oh-My-Zsh already installed"
-fi
-
+sudo apt install -y curl zsh
+hash -r
+sudo chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
