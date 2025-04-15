@@ -5,7 +5,7 @@ RESET="\033[0m"
 
 echo -e "${GREEN}======= Installing Neovim =======${RESET}"
 
-git clone git@github.com:neovim/neovim.git ~/personal/neovim
+git clone https://github.com/neovim/neovim.git ~/personal/neovim
 cd ~/personal/neovim
 git fetch
 git checkout v0.10.2

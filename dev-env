@@ -56,19 +56,14 @@ copy_file() {
     execute cp $from $to/$name
 }
 
-# copy_dir
+# Copy main config directories
 copy_dir configs/.config $HOME/.config
-copy_dir configs/.config/i3 $HOME/.config/i3
-copy_dir configs/.config/i3status $HOME/.config/i3status
 copy_dir configs/.local $HOME/.local
 
-
+# Copy dotfiles to $HOME
 copy_file configs/.zshrc $HOME
 copy_file configs/.zsh_profile $HOME
-copy_file configs/config $HOME/.config/terminator
 copy_file configs/.tmux.conf $HOME
 copy_file configs/.xinitrc $HOME
 copy_file configs/.xprofile $HOME
 copy_file configs/.Xresources $HOME
-
-
