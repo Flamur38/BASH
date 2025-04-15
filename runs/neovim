@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+GREEN="\033[0;32m"
+RESET="\033[0m"
+
+echo -e "${GREEN}======= Installing Neovim =======${RESET}"
+
+git clone git@github.com:neovim/neovim.git ~/personal/neovim
+cd ~/personal/neovim
+git fetch
+git checkout v0.10.2
+
+sudo apt install cmake gettext lua5.1 liblua5.1-0-dev
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+rm -rf ~/personal/neovim
+
+echo -e "${GREEN}======= Neovim Installed =======${RESET}"

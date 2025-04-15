@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+GREEN="\033[0;32m"
+RESET="\033[0m"
+
+# Helper for green status messages
+status() {
+    echo -e "${GREEN}======= $1 =======${RESET}"
+}
+
+# 1. Install tmux
+status "Installing tmux"
+sudo apt install -y tmux
+
+# 2. Install TPM (Tmux Plugin Manager)
+if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    status "Cloning TPM"
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+else
+    status "TPM already installed"
+fi
+
+# 3. Install tmux plugins if tmux is available
+if command -v tmux >/dev/null; then
+    status "Installing tmux plugins"
+    "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+else
+    status "tmux command not found, skipping plugin install"
+fi
+
+status "Tmux setup complete"
+

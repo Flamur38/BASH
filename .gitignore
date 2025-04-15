@@ -1,0 +1,13 @@
+cat <<EOF > .gitignore
+*.swp
+*.swo
+*.bak
+*~
+.cache/
+.venv/
+__pycache__/
+*.log
+*.lock
+*.tmp
+EOF
+
