@@ -229,3 +229,8 @@ bindsym $mod+comma exec ~/.config/i3/scripts/alsa up Headphone
 bindsym $mod+m move workspace to output left
 
 bindsym $mod+Shift+p exec --no-startup-id ~/.local/apps/play_next_bits
+
+# install picom for this to use. ## for sublime error saving files ## 
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+for_window [class="Sublime_text" title="Save As.*"] floating enable
+
