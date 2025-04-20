@@ -3,16 +3,25 @@
 GREEN="\033[0;32m"
 RESET="\033[0m"
 
-echo -e "${GREEN}======= Installing Neovim =======${RESET}"
+echo -e "${GREEN}>>> Installing Neovim dependencies...${RESET}"
+sudo apt update && sudo apt install -y ninja-build gettext cmake unzip curl build-essential git lua5.1 liblua5.1-0-dev python3 python3-pip cargo
 
+echo -e "${GREEN}>>> Cloning and building latest Neovim...${RESET}"
 git clone https://github.com/neovim/neovim.git ~/personal/neovim
 cd ~/personal/neovim
 git fetch
-git checkout v0.10.2
-
-sudo apt install cmake gettext lua5.1 liblua5.1-0-dev
+git checkout v0.11.0
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
-rm -rf ~/personal/neovim
+cd ~ && rm -rf ~/personal/neovim
 
-echo -e "${GREEN}======= Neovim Installed =======${RESET}"
+echo -e "${GREEN}>>> Bootstrapping Lazy.nvim and plugins...${RESET}"
+nvim --headless '+Lazy! sync' +qa
+
+echo -e "${GREEN}>>> Building telescope-fzf-native.nvim...${RESET}"
+FZF_DIR=~/.local/share/nvim/lazy/telescope-fzf-native.nvim
+if [ -d $FZF_DIR ]; then
+  make -C $FZF_DIR || echo 'Failed to build telescope-fzf-native'
+fi
+
+echo -e "${GREEN}>>> Neovim installation complete!${RESET}"
