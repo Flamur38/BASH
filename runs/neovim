@@ -1,31 +1,22 @@
 #!/usr/bin/env bash
 
-GREEN="\033[0;32m"
-RESET="\033[0m"
+green() {
+  GREEN="\033[0;32m"
+  RESET="\033[0m"
+  echo -e "${GREEN}$1${RESET}"
+}
 
-echo -e "${GREEN}>>> Installing Neovim dependencies...${RESET}"
+green ">>> Installing base system dependencies..."
 
 sudo apt update && sudo apt install -y \
   ninja-build gettext cmake unzip curl build-essential git \
   lua5.1 liblua5.1-0-dev python3 python3-pip cargo \
+  ripgrep fd-find nodejs npm
 
-# Install lua-language-server manually
-echo -e "${GREEN}>>> Installing lua-language-server manually...${RESET}"
+green ">>> Installing tree-sitter CLI globally..."
+sudo npm install -g tree-sitter-cli
 
-LUA_LS_DIR="$HOME/.local/lua-language-server"
-mkdir -p "$LUA_LS_DIR"
-cd "$LUA_LS_DIR"
-curl -LO https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-3.7.3-linux-x64.tar.gz
-tar -xzf lua-language-server-3.7.3-linux-x64.tar.gz
-mv lua-language-server-3.7.3-linux-x64/* .
-rm -rf lua-language-server-3.7.3-linux-x64*
-
-# Symlink it to ~/.local/bin
-mkdir -p ~/.local/bin
-ln -sf "$LUA_LS_DIR/bin/lua-language-server" ~/.local/bin/lua-language-server
-
-
-echo -e "${GREEN}>>> Cloning and building Neovim v0.11.0...${RESET}"
+green ">>> Building and installing Neovim v0.11.0 from source..."
 
 git clone https://github.com/neovim/neovim.git ~/personal/neovim
 cd ~/personal/neovim
@@ -36,15 +27,18 @@ sudo make install
 cd ~
 rm -rf ~/personal/neovim
 
-echo -e "${GREEN}>>> Bootstrapping Lazy.nvim and plugins...${RESET}"
+green ">>> Installing packer.nvim if missing..."
 
-nvim --headless "+Lazy! sync" +qa
-
-echo -e "${GREEN}>>> Building telescope-fzf-native.nvim...${RESET}"
-
-FZF_DIR="$HOME/.local/share/nvim/lazy/telescope-fzf-native.nvim"
-if [ -d "$FZF_DIR" ]; then
-  make -C "$FZF_DIR" || echo '⚠️ Failed to build telescope-fzf-native'
+PACKER_DIR="$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+if [ ! -d "$PACKER_DIR" ]; then
+  git clone --depth 1 https://github.com/wbthomason/packer.nvim "$PACKER_DIR"
+else
+  echo "packer.nvim already installed."
 fi
 
-echo -e "${GREEN}>>> Neovim installation complete!${RESET}"
+green ">>> Running PackerSync to install all plugins..."
+
+nvim --headless "+PackerSync" +qa
+
+green ">>> Neovim setup complete! Enjoy your workflow 🚀"
+
