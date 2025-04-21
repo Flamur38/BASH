@@ -1,2 +1,2 @@
-require("flamur")
+require("flamur.core")
 
