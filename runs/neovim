@@ -13,8 +13,13 @@ sudo apt update && sudo apt install -y \
   lua5.1 liblua5.1-0-dev python3 python3-pip cargo \
   ripgrep fd-find nodejs npm
 
-green ">>> Installing tree-sitter CLI globally..."
-sudo npm install -g tree-sitter-cli
+# Link fd-find as fd
+mkdir -p ~/.local/bin
+ln -sf "$(which fdfind)" ~/.local/bin/fd
+
+# Add ~/.local/bin to PATH (Zsh only, as requested)
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+export PATH="$HOME/.local/bin:$PATH"
 
 green ">>> Building and installing Neovim v0.11.0 from source..."
 
@@ -27,18 +32,6 @@ sudo make install
 cd ~
 rm -rf ~/personal/neovim
 
-green ">>> Installing packer.nvim if missing..."
+green ">>> Booting Neovim to trigger Lazy.nvim plugin install..."
 
-PACKER_DIR="$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
-if [ ! -d "$PACKER_DIR" ]; then
-  git clone --depth 1 https://github.com/wbthomason/packer.nvim "$PACKER_DIR"
-else
-  echo "packer.nvim already installed."
-fi
-
-green ">>> Running PackerSync to install all plugins..."
-
-nvim --headless "+PackerSync" +qa
-
-green ">>> Neovim setup complete! Enjoy your workflow 🚀"
-
+nvim --headless "+Lazy! sync" +qa
