@@ -105,3 +105,9 @@ source ~/.zsh_profile
 # Add fzf to PATH
 export PATH="$HOME/.fzf/bin:$PATH"
 
+
+alias luamake="/home/mulix/.local/share/lua-language-server/3rd/luamake/luamake"
+#
+# Add local npm bin to PATH ... this is required for pyright to be installed and work.
+export PATH="$HOME/.npm-global/bin:$PATH"
+
