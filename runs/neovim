@@ -35,3 +35,5 @@ rm -rf ~/personal/neovim
 green ">>> Booting Neovim to trigger Lazy.nvim plugin install..."
 
 nvim --headless "+Lazy! sync" +qa
+
+green " ========= All Plugins are Installed ======== "
