@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "🔧 Installing dependencies..."
+sudo apt update
+sudo apt install -y curl git ripgrep fd-find unzip build-essential npm
+
+# Link fd-find as fd if not already linked
+if ! command -v fd &>/dev/null; then
+  mkdir -p ~/.local/bin
+  ln -sf "$(which fdfind)" ~/.local/bin/fd
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+echo "📥 Downloading latest Neovim .deb..."
+TMP_DEB="/tmp/nvim-latest.deb"
+curl -Lo "$TMP_DEB" https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb
+
+echo "📦 Installing Neovim..."
+sudo dpkg -i "$TMP_DEB"
+
+echo "🧼 Cleaning up..."
+rm "$TMP_DEB"
+
+echo "🚀 Booting Neovim to trigger plugin install..."
+nvim --headless "+Lazy! sync" +qa
+
+echo "✅ Done! Neovim is ready with all plugins installed."
+
