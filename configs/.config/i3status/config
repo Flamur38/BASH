@@ -18,7 +18,7 @@ order += "disk /"
 order += "tztime local"
 
 memory {
-    format = "MEM: %used (%percentage)"
+    format = "MEM: %used "
     threshold_degraded = "90%"
     format_degraded = "MEM: %used !!"
 }

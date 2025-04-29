@@ -1,0 +1,20 @@
+[GPU]
+command=~/.config/i3blocks/gpu
+interval=5
+
+[CPU]
+command=echo "CPU: $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage) "%"}')"
+interval=5
+
+[Memory]
+command=free -h | awk '/Mem:/ {print "MEM: " $3 "/" $2}'
+interval=5
+
+[Disk]
+command=df -h / | awk 'END{print "Disk: " $4 " free"}'
+interval=60
+
+[Time]
+command=date '+%d-%m-%Y | %H:%M:%S'
+interval=1
+
