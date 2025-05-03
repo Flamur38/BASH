@@ -12,6 +12,10 @@ return {
     -- https://github.com/williamboman/mason-lspconfig.nvim
     { 'williamboman/mason-lspconfig.nvim' },
 
+    -- Auto Install LSPs, linters, formatters, debuggers
+    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+    { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
+
     -- Useful status updates for LSP
     -- https://github.com/j-hui/fidget.nvim
     { 'j-hui/fidget.nvim', opts = {} },
@@ -25,7 +29,7 @@ return {
     require('mason-lspconfig').setup({
       -- Install these LSPs automatically
       ensure_installed = {
-        -- 'bashls', -- requires npm to be installed
+        'bashls', -- requires npm to be installed
         -- 'cssls', -- requires npm to be installed
         -- 'html', -- requires npm to be installed
         'lua_ls',
@@ -38,6 +42,22 @@ return {
         -- 'yamlls', -- requires npm to be installed
       }
     })
+    require('mason-tool-installer').setup({
+        -- Install these linters, formatters, debuggers automatically
+        ensure_installed = {
+            'black',
+            'debugpy',
+            'flake8',
+            'isort',
+            'mypy',
+            'pylint',
+        },
+    })
+    -- There is an issue with mason-tool-installer running with VeryLazy,
+    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim/issue/
+    vim.api.nvim_command('MasonToolsInstall')
+
+
 
     local lspconfig = require('lspconfig')
     local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()

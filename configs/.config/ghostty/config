@@ -9,14 +9,22 @@
 # font-family = Iosevka
 # window-padding-x = 2
 
-theme = rose-pine
-# theme = "GitHub Dark" 
-# theme = "tokyonight" 
-background = 000000
-font-size = 19
-background-blur-radius = 20
-background-opacity = 10
+# theme = hackthebox.conf
+background = 1A1C23
+# background = 23252E
+# background-blur-radius = 20
+# background-opacity = 10
+theme = Subliminal
 
+# background = 18191A
+# background = 000000
+# theme = rose-pine
+font-size = 21
+font-family = Monospace
 shell-integration-features = no-cursor,no-sudo,no-title
 gtk-titlebar = false
+
+# Cursor color (red)
+cursor-color = #FF0000
+
 
