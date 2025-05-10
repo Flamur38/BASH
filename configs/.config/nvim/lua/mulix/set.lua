@@ -1,3 +1,4 @@
+
 local opt = vim.opt
 
 -- Line Numbers
@@ -9,7 +10,7 @@ opt.tabstop = 4                 -- Number of spaces for a tab
 opt.shiftwidth = 4              -- Number of spaces for autoindent
 opt.expandtab = true            -- Convert tabs to spaces
 opt.smartindent = true          -- Smart autoindenting on new lines
-vim.bo.softtabstop = 4          -- Spaces when pressing tab in insert mode
+opt.softtabstop = 4             -- Spaces when pressing tab in insert mode
 
 -- Line Wrapping
 opt.wrap = false                -- Disable line wrapping
@@ -25,7 +26,7 @@ opt.cursorline = true        -- Highlight the current line (disabled by default)
 opt.termguicolors = true        -- Enable 24-bit RGB colors
 opt.background = "dark"         -- Set background for colorschemes
 opt.signcolumn = "yes"          -- Always show the sign column
-opt.showmode = false            -- Don't show current mode (e.g., -- INSERT --)
+opt.showmode = true             -- Don't show current mode (e.g., -- INSERT --)
 
 -- Backspace
 opt.backspace = "indent,eol,start" -- Allow backspace over everything in insert mode
@@ -49,6 +50,5 @@ vim.opt.scrolloff = 8           -- Keep 8 lines visible above/below cursor
 
 -- Cursor
 vim.opt.guicursor = ""          -- Keep block cursor in all modes
-
 
 

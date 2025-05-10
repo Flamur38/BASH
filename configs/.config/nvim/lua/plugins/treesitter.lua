@@ -1,4 +1,3 @@
-
 -- Code Tree Support / Syntax Highlighting
 return {
   -- https://github.com/nvim-treesitter/nvim-treesitter
@@ -18,6 +17,9 @@ return {
     ensure_installed = {
       'lua',
       'python',
+      'bash',
+      'json',
+      'yaml',
     },
   },
   config = function (_, opts)
@@ -25,4 +27,3 @@ return {
     configs.setup(opts)
   end
 }
-

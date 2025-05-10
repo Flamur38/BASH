@@ -1,4 +1,3 @@
-
 -- Fuzzy finder
 return {
   -- https://github.com/nvim-telescope/telescope.nvim

@@ -1,30 +1,15 @@
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
-
-# Config syntax crash course
-# ==========================
-# font-family = Iosevka
-# window-padding-x = 2
-
-# theme = hackthebox.conf
-background = 1A1C23
-# background = 23252E
-# background-blur-radius = 20
-# background-opacity = 10
-theme = Subliminal
-
-# background = 18191A
-# background = 000000
-# theme = rose-pine
-font-size = 21
-font-family = Monospace
+theme = hackthebox.conf
+font-size = 17
+font-family = Monospace 
 shell-integration-features = no-cursor,no-sudo,no-title
 gtk-titlebar = false
 
 # Cursor color (red)
-cursor-color = #FF0000
+cursor-color = ec5f66 
+cursor-style = block 
 
-
+font-style-bold = false 
+font-style-bold-italic = false
+#
+# background-opacity = 0.95
+# background-blur-radius = 10

@@ -38,4 +38,11 @@ if ! command -v google-chrome &>/dev/null; then
     rm /tmp/google-chrome.deb
 fi
 
+# Downloading seclists
+git clone https://github.com/danielmiessler/SecLists.git ~/personal/SecLists
+cd ~/personal
+sudo mv SecLists /opt/
+
+# PIP Install tools for python
+sudo pip install flake8 pylint black autopep8 pytest debugpy --break-system-packages
 

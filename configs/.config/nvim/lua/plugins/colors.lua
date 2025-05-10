@@ -1,144 +1,11 @@
-
--- Theme/Colorscheme (uncomment section for whichever theme you prefer or use your own)
--- Kanagawa Theme (Custom Palette)
--- return {
---   -- https://github.com/rebelot/kanagawa.nvim
---   'rebelot/kanagawa.nvim', -- You can replace this with your favorite colorscheme
---   lazy = false, -- We want the colorscheme to load immediately when starting Neovim
---   priority = 1000, -- Load the colorscheme before other non-lazy-loaded plugins
---   opts = {
---     -- Replace this with your scheme-specific settings or remove to use the defaults
---     -- transparent = true,
---     background = {
---       -- light = "lotus",
---       dark = "wave", -- "wave, dragon"
---     },
-    -- colors = {
-    --   palette = {
-    --     -- Background colors
-    --     sumiInk0 = "#161616", -- modified
-    --     sumiInk1 = "#181818", -- modified
-    --     sumiInk2 = "#1a1a1a", -- modified
-    --     sumiInk3 = "#1F1F1F", -- modified
-    --     sumiInk4 = "#2A2A2A", -- modified
-    --     sumiInk5 = "#363636", -- modified
-    --     sumiInk6 = "#545454", -- modified
---
---         -- Popup and Floats
---         waveBlue1 = "#322C47", -- modified
---         waveBlue2 = "#4c4464", -- modified
---
---         -- Diff and Git
---         winterGreen = "#2B3328",
---         winterYellow = "#49443C",
---         winterRed = "#43242B",
---         winterBlue = "#252535",
---         autumnGreen = "#76A56A", -- modified
---         autumnRed = "#C34043",
---         autumnYellow = "#DCA561",
---
---         -- Diag
---         samuraiRed = "#E82424",
---         roninYellow = "#FF9E3B",
---         waveAqua1 = "#7E9CD8", -- modified
---         dragonBlue = "#7FB4CA", -- modified
---
---         -- Foreground and Comments
---         oldWhite = "#C8C093",
---         fujiWhite = "#F9E7C0", -- modified
---         fujiGray = "#727169",
---         oniViolet = "#BFA3E6", -- modified
---         oniViolet2 = "#BCACDB", -- modified
---         crystalBlue = "#8CABFF", -- modified
---         springViolet1 = "#938AA9",
---         springViolet2 = "#9CABCA",
---         springBlue = "#7FC4EF", -- modified
---         waveAqua2 = "#77BBDD", -- modified
---
---         springGreen = "#98BB6C",
---         boatYellow1 = "#938056",
---         boatYellow2 = "#C0A36E",
---         carpYellow = "#FFEE99", -- modified
---
---         sakuraPink = "#D27E99",
---         waveRed = "#E46876",
---         peachRed = "#FF5D62",
---         surimiOrange = "#FFAA44", -- modified
---         katanaGray = "#717C7C",
---       },
---     },
---   },
---   config = function(_, opts)
---     require('kanagawa').setup(opts) -- Replace this with your favorite colorscheme
---     vim.cmd("colorscheme kanagawa") -- Replace this with your favorite colorscheme
---
---     -- Custom diff colors
---     vim.cmd([[
---       autocmd VimEnter * hi DiffAdd guifg=#00FF00 guibg=#005500
---       autocmd VimEnter * hi DiffDelete guifg=#FF0000 guibg=#550000
---       autocmd VimEnter * hi DiffChange guifg=#CCCCCC guibg=#555555
---       autocmd VimEnter * hi DiffText guifg=#00FF00 guibg=#005500
---     ]])
---
---     -- Custom border colors
---     vim.cmd([[
---       autocmd ColorScheme * hi NormalFloat guifg=#F9E7C0 guibg=#1F1F1F
---       autocmd ColorScheme * hi FloatBorder guifg=#F9E7C0 guibg=#1F1F1F
---     ]])
---   end
--- }
-
--- ====== Sublime =====
-return {
-    "kaiuri/nvim-juliana",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-    config = function()
-        vim.cmd("colorscheme juliana")
-        vim.schedule(function()
-            -- Cursor and background tweaks
-            vim.api.nvim_set_hl(0, "CursorLineNr",  { fg = "#f9ae58", bg = "None", bold = true })
-            vim.api.nvim_set_hl(0, "CursorLine",    { bg = "None" }) -- make the line transparent
-            vim.api.nvim_set_hl(0, "Normal",        { bg = "None" }) -- transparent background
-            vim.api.nvim_set_hl(0, "NormalFloat",   { bg = "None" })
-            vim.api.nvim_set_hl(0, "FloatBorder",   { bg = "None" })
-            vim.api.nvim_set_hl(0, "SignColumn",    { bg = "None" })
-            --
-        end)
-    end,
-}
--- ===== HackTheBox =====
---
--- return {
---     "audibleblink/hackthebox.vim",
---     lazy = false,
---     priority = 1000,
---     config = function()
---         -- Load the HackTheBox colorscheme
---         vim.cmd("colorscheme hackthebox")
---
---         -- Custom highlight groups with color comments from HackTheBox theme
---         vim.api.nvim_set_hl(0, "Operator",   { fg = "#D77154",  bold = true }) -- orange (assignment operator '=')
---         vim.api.nvim_set_hl(0, "CursorLineNr",  { fg = "#FF8484", bg = "None", bold = true })
---         vim.api.nvim_set_hl(0, "CursorLine",    { bg = "None" }) -- make the line transparent
---         -- vim.api.nvim_set_hl(0, "Operator",   { fg = "#A4B1CD",  bold = true }) -- orange (assignment operator '=')
---         -- vim.api.nvim_set_hl(0, "Normal",        { bg = "None" })
---         -- vim.api.nvim_set_hl(0, "NormalFloat",   { bg = "None" })
---
---     end,
--- }
-
--- ===== Rose-Pine =====
+-- ===== rose-pine =====
 -- return {
 --     "rose-pine/neovim",
 --     name = "rose-pine",
---     lazy = false, -- load immediately
---     priority = 1000, -- load before other plugins to apply the colorscheme
 --     config = function()
 --         require("rose-pine").setup({
 --             variant = "auto", -- auto, main, moon, or dawn
---             dark_variant = "moon", -- main, moon, or dawn
+--             dark_variant = "main", -- main, moon, or dawn
 --             dim_inactive_windows = false,
 --             extend_background_behind_borders = true,
 --
@@ -149,7 +16,7 @@ return {
 --             },
 --
 --             styles = {
---                 bold = false,
+--                 bold = true,
 --                 italic = false,
 --                 transparency = false,
 --             },
@@ -186,29 +53,75 @@ return {
 --             },
 --
 --             palette = {
---                 moon = {
---                     base = '#18191a',    -- background
---                     surface = "#1f2021", -- for items like status lines
---                     overlay = '#363738', -- For popup menus, floating windows, etc.
---                 },
+--                 -- Override the builtin palette per variant
+--                 -- moon = {
+--                 --     base = '#18191a',
+--                 --     overlay = '#363738',
+--                 -- },
 --             },
 --
 --             highlight_groups = {
---                 Comment = { fg = "muted" },
---                 -- StatusLine = { fg = "love", bg = "pine", blend = 15 },
+--                 -- Comment = { fg = "foam" },
+--                 -- StatusLine = { fg = "love", bg = "surface", blend = 15 },
 --                 -- VertSplit = { fg = "muted", bg = "muted" },
 --                 -- Visual = { fg = "base", bg = "text", inherit = false },
 --             },
 --
 --             before_highlight = function(group, highlight, palette)
---                 -- Example customization:
---                 -- highlight.undercurl = false
+--                 -- Disable all undercurls
+--                 -- if highlight.undercurl then
+--                 --     highlight.undercurl = false
+--                 -- end
+--                 --
+--                 -- Change palette colour
 --                 -- if highlight.fg == palette.pine then
 --                 --     highlight.fg = palette.foam
 --                 -- end
 --             end,
 --         })
 --
---         vim.cmd("colorscheme rose-pine") -- or rose-pine-main, rose-pine-moon, etc.
+--         vim.cmd("colorscheme rose-pine")
+--         vim.api.nvim_set_hl(0, "Normal",      { bg = "None" })
+--         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "None" })
 --     end
 -- }
+-- ====== Sublime =====
+--
+-- return {
+--     {
+--         "kaiuri/nvim-juliana",
+--         lazy = false,
+--         priority = 1000,
+--         opts = {}, -- theme has no specific options
+--         config = function()
+--             vim.cmd("colorscheme juliana")
+--
+--             vim.api.nvim_set_hl(0, "Normal",      { bg = "None" })
+--             vim.api.nvim_set_hl(0, "NormalFloat", { bg = "None" })
+--             vim.api.nvim_set_hl(0, "FloatBorder", { bg = "None" })
+--             vim.api.nvim_set_hl(0, "SignColumn",  { bg = "None" })
+--             vim.api.nvim_set_hl(0, "StatusLine",  { bg = "None" })
+--             vim.api.nvim_set_hl(0, "CursorLineNr",  { bg = "None", bold = true }) -- Optional: Transparent number column highlight
+--             vim.api.nvim_set_hl(0, "CursorLine",    { bg = "None" })              -- Transparent cursorline
+--             --
+--             -- Comment color from juliana palette (use fg4 = '#46525c')
+--             local comment_color = "#46526C"
+--             vim.api.nvim_set_hl(0, "Comment",   { fg = comment_color, italic = false })
+--             vim.api.nvim_set_hl(0, "@comment",  { fg = comment_color, italic = false })
+--
+--         end,
+--     },
+-- }
+--
+-- plugins/colorscheme.lua
+return {
+  {
+    "audibleblink/hackthebox.vim",
+    lazy = false, -- Load immediately
+    priority = 1000, -- High priority for colorschemes
+    config = function()
+        vim.cmd.colorscheme("hackthebox")
+        -- vim.cmd("colorscheme hackthebox")
+    end,
+  },
+}
