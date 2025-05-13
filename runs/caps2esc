@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# ===================
+# Caps2Esc Installer
+# ===================
+
+echo "[*] Installing dependencies..."
+sudo apt update
+sudo apt install -y cmake libevdev-dev libudev-dev git build-essential
+
+# =========================
+# Clone and Build caps2esc
+# =========================
+INSTALL_DIR="$HOME/.local/src"
+mkdir -p "$INSTALL_DIR"
+cd "$INSTALL_DIR"
+
+if [ ! -d "caps2esc" ]; then
+    echo "[*] Cloning caps2esc..."
+    git clone https://gitlab.com/interception/linux/plugins/caps2esc.git
+else
+    echo "[*] caps2esc already cloned."
+fi
+
+cd caps2esc
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+
+# =================================
+# Install Interception Tools (core)
+# =================================
+if ! command -v intercept >/dev/null 2>&1; then
+    echo "[*] Installing Interception Tools..."
+    git clone https://gitlab.com/interception/linux/tools.git interception-tools
+    cd interception-tools
+    cmake -B build -DCMAKE_BUILD_TYPE=Release
+    sudo cmake --build build --target install
+    cd ..
+else
+    echo "[*] Interception Tools already installed."
+fi
+
+# ===============================
+# Configure udevmon for caps2esc
+# ===============================
+echo "[*] Creating udevmon configuration..."
+
+sudo mkdir -p /etc/interception
+sudo tee /etc/interception/udevmon.yaml > /dev/null <<EOF
+- JOB: "intercept -g \$DEVNODE | $INSTALL_DIR/caps2esc/build/caps2esc | uinput -d \$DEVNODE"
+  DEVICE:
+    EVENTS:
+      EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+EOF
+
+# ==================
+# Enable and Run It
+# ==================
+echo "[*] Enabling caps2esc..."
+
+sudo systemctl enable --now udevmon
+
+echo "[✓] caps2esc is installed and active."

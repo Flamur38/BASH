@@ -2,7 +2,7 @@
 
 # 1. Install base packages
 sudo apt install -y terminator build-essential python3 python3-pip tcpdump htop zsh dirb whois rdesktop nodejs ripgrep fd-find xclip flameshot \
-    i3blocks i3 i3status feh
+    i3blocks i3 i3status feh picom
 
 # 2. Fix missing npm (Ubuntu issue)
 if ! command -v npm &>/dev/null; then
@@ -16,13 +16,6 @@ if command -v npm &>/dev/null; then
     export PATH="$HOME/.npm-global/bin:$PATH"
 fi
 
-# Install tldr via npm
-if command -v npm &>/dev/null; then
-    npm install -g tldr
-fi
-
-    # 4. Install pyright
-    npm install -g pyright
 
 # 5. Symlink fd if needed
 if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then

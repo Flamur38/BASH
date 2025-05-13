@@ -111,3 +111,12 @@ alias luamake="/home/mulix/.local/share/lua-language-server/3rd/luamake/luamake"
 # Add local npm bin to PATH ... this is required for pyright to be installed and work.
 export PATH="$HOME/.npm-global/bin:$PATH"
 
+export PATH="$HOME/.local/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="$HOME/.local/zig-linux-x86_64-0.14.0:$PATH"
+export PATH="$HOME/.local/zig-linux-x86_64-0.14.0:$PATH"
+export PATH="/opt/zig-0.14:$PATH"
+export PATH="/opt/zig-0.11:$PATH"
+export PATH="/opt/zig-0.11:$PATH"
+export PATH="/opt/zig-0.12:$PATH"

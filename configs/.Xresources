@@ -1,10 +1,9 @@
-# 200% 192
-# 150% 144
-# 125% 120
-
-Xft.dpi: 144 
-Xft.antialias: true
-Xft.hinting: true
-Xft.hintstyle: hintslight
-Xft.rgba: rgb
-
+! # 200% 192
+! # 150% 144
+! # 125% 120
+!
+! Xft.dpi: 144 
+! Xft.antialias: true
+! Xft.hinting: true
+! Xft.hintstyle: hintslight
+! Xft.rgba: rgb

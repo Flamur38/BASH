@@ -5,7 +5,7 @@ RESET="\033[0m"
 
 echo -e "${GREEN}======= Installing i3 Window Manager =======${RESET}"
 
-sudo apt install i3 i3status xbacklight pavucontrol pulseaudio-utils rofi
+sudo apt install -y i3 i3status xbacklight pavucontrol pulseaudio-utils rofi
 
 echo -e "${GREEN}======= i3 and Rofi Installed =======${RESET}"
 
