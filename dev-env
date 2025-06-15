@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+script_dir="$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)"
+dry="0"
+
+while [[ $# > 0 ]]; do
+    if [[ "$1" == "--dry" ]]; then
+        dry="1"
+    fi
+    shift
+done
+
+log() {
+    if [[ $dry == "1" ]]; then
+        echo "[DRY_RUN]: $@"
+    else
+        echo "$@"
+    fi
+}
+
+execute() {
+    log "execute: $@"
+    if [[ $dry == "1" ]]; then
+        return
+    fi
+
+    "$@"
+}
+
+log "--------- dev-env ---------"
+
+# Copy Directory
+
+copy_dir() {
+    from=$1 
+    to=$2
+    
+    pushd $from > /dev/null || exit 1
+
+    dirs=$(find . -maxdepth 1 -mindepth 1 -type d)
+    for dir in $dirs; do
+        dir=${dir#./}
+        execute rm -rf $to/$dir
+        execute cp -r $dir $to/$dir
+    done
+    popd > /dev/null || exit 1
+}
+
+# Copy Files
+
+copy_file() {
+    from=$1
+    to=$2
+    name=$(basename $from)
+    execute rm $to/$name 
+    execute cp $from $to/$name
+}
+
+# Copy main config directories
+copy_dir configs/.config $HOME/.config
+copy_dir configs/.local $HOME/.local
+copy_dir configs/Pictures $HOME/Pictures/test
+
+# Copy dotfiles to $HOME
+copy_file configs/.zshrc $HOME
+copy_file configs/.zsh_profile $HOME
+copy_file configs/.tmux.conf $HOME
+copy_file configs/.xinitrc $HOME
+copy_file configs/.xprofile $HOME
+copy_file configs/.Xresources $HOME
+# copy_file configs/.bashrc $HOME
+# copy_file configs/.profile $HOME

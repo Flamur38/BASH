@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+
+# ============
+# Variables
+# ============
+PROFILE_NAME="CyberSec"
+PROFILE_ID="profile-cybersec"
+DCONF_BASE="/org/mate/terminal/profiles"
+DCONF_PATH="${DCONF_BASE}/${PROFILE_ID}/"
+CONFIG_FILE="configs/flamur-bash"
+
+# ============
+# Functions
+# ============
+
+create_profile() {
+    echo "[*] Creating MATE Terminal profile '${PROFILE_NAME}'..."
+
+    # Check if profile already exists
+    if dconf list "$DCONF_BASE/" | grep -q "$PROFILE_ID/"; then
+        echo "[!] Profile '${PROFILE_NAME}' already exists. Overwriting..."
+    else
+        # Add profile ID to list
+        existing_profiles=$(dconf read /org/mate/terminal/global/profile-list | sed "s/^\[//;s/\]$//")
+        new_profiles="['${PROFILE_ID}'"
+        if [[ -n "$existing_profiles" ]]; then
+            new_profiles+=",${existing_profiles}"
+        fi
+        new_profiles+="]"
+        dconf write /org/mate/terminal/global/profile-list "$new_profiles"
+    fi
+
+    # Load profile config
+    if [[ -f "$CONFIG_FILE" ]]; then
+        echo "[*] Applying config from ${CONFIG_FILE}"
+        dconf load "${DCONF_PATH}" < "$CONFIG_FILE"
+    else
+        echo "[!] Config file '${CONFIG_FILE}' not found!"
+        exit 1
+    fi
+
+    echo "[✓] Profile '${PROFILE_NAME}' created."
+}
+
+# ============
+# Main
+# ============
+
+create_profile
+

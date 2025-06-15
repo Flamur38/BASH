@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# 1. Install base packages
+sudo apt install -y terminator build-essential python3 python3-pip tcpdump htop zsh dirb whois rdesktop nodejs ripgrep fd-find xclip flameshot \
+    i3blocks i3 i3status feh picom arandr polybar
+
+# 2. Fix missing npm (Ubuntu issue)
+if ! command -v npm &>/dev/null; then
+    sudo apt install -y npm
+fi
+
+# 3. Configure npm for local user
+if command -v npm &>/dev/null; then
+    mkdir -p "$HOME/.npm-global"
+    npm config set prefix "$HOME/.npm-global"
+    export PATH="$HOME/.npm-global/bin:$PATH"
+fi
+
+
+# 5. Symlink fd if needed
+if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then
+    mkdir -p "$HOME/.local/bin"
+    ln -sf "$(which fdfind)" "$HOME/.local/bin/fd"
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# 7. Install Google Chrome if missing
+if ! command -v google-chrome &>/dev/null; then
+    wget -q -O /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo apt install -y /tmp/google-chrome.deb
+    rm /tmp/google-chrome.deb
+fi
+
+# Downloading seclists
+git clone https://github.com/danielmiessler/SecLists.git ~/personal/SecLists
+cd ~/personal
+sudo mv SecLists /opt/
+
+# PIP Install tools for python
+sudo pip install flake8 pylint black autopep8 pytest debugpy --break-system-packages
+
+# Installing Spotify
+curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+echo "deb https://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update && sudo apt-get install spotify-client

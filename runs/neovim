@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+green() {
+  GREEN="\033[0;32m"
+  RESET="\033[0m"
+  echo -e "${GREEN}$1${RESET}"
+}
+
+green ">>> Disabling broken Spotify repo (if exists)..."
+if [ -f /etc/apt/sources.list.d/spotify.list ]; then
+  sudo sed -i 's|^deb .*spotify.com.*|#&|' /etc/apt/sources.list.d/spotify.list
+fi
+
+green ">>> Adding Neovim PPA and installing dependencies..."
+
+sudo apt update
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt update && sudo apt install -y \
+  neovim ninja-build gettext cmake unzip curl build-essential git \
+  lua5.1 liblua5.1-0-dev python3 python3-pip cargo \
+  ripgrep fd-find nodejs npm
+
+# Link fd-find as fd
+mkdir -p ~/.local/bin
+ln -sf "$(which fdfind)" ~/.local/bin/fd
+
+# Add ~/.local/bin to PATH (Zsh only, as requested)
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+export PATH="$HOME/.local/bin:$PATH"
+
+green ">>> Booting Neovim to trigger Lazy.nvim plugin install..."
+
+nvim --headless "+Lazy! sync" +qa
+
+green "========= All Plugins are Installed ========="
