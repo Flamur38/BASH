@@ -59,7 +59,7 @@ copy_file() {
 # Copy main config directories
 copy_dir configs/.config $HOME/.config
 copy_dir configs/.local $HOME/.local
-copy_dir configs/Pictures $HOME/Pictures/test
+copy_dir configs/Pictures $HOME/Pictures
 
 # Copy dotfiles to $HOME
 copy_file configs/.zshrc $HOME
@@ -68,5 +68,6 @@ copy_file configs/.tmux.conf $HOME
 copy_file configs/.xinitrc $HOME
 copy_file configs/.xprofile $HOME
 copy_file configs/.Xresources $HOME
-# copy_file configs/.bashrc $HOME
-# copy_file configs/.profile $HOME
+copy_file configs/.profile $HOME
+copy_file configs/i3status-server.sh /etc/htb/
+

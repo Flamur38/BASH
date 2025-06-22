@@ -9,3 +9,6 @@ sudo apt install -y i3 i3status xbacklight pavucontrol pulseaudio-utils rofi
 
 echo -e "${GREEN}======= i3 and Rofi Installed =======${RESET}"
 
+
+sudo mkdir -p /etc/htb/
+
