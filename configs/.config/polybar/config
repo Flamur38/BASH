@@ -1,297 +1,169 @@
-;==========================================================
-;
-;   Vibrant Ubuntu-Inspired Polybar Theme (Revised)
-;   A bold, compact design with centered date for i3
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;==========================================================
+; ============================
+;        POLYBAR CONFIG
+; ============================
 
 [colors]
-background = #2A1B2A
-background-alt = #3A2A3A
-foreground = #F8F8F8
-foreground-alt = #C4B8C4
-primary = #F04A00
-secondary = #6B2D5C
-alert = #E53935
-green = #00A99D
-accent = #FF8A65
+background = #0a0a0a
+foreground = #c0caf5
+blue       = #7aa2f7
+muted      = #565f89
+warning    = #f7768e
+green-accent = #9ece6a
+dark-green = #1f2335
+alt-foreground = #7aa2f7
 
 [bar/main]
 width = 100%
-height = 48
+height = 40
 offset-x = 0
 offset-y = 0
-radius = 0.0
-fixed-center = false
-bottom = true
-dpi = 0
+radius = 0
+bottom = false
 
-background = ${colors.background}CC
+tray-position = right
+tray-output = DP-4
+
+
+background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
-line-color = ${colors.primary}
+line-color = ${colors.green-accent}
 
 border-size = 0
 border-color = #00000000
 
-padding-left = 4
-padding-right = 4
-module-margin-left = 0
-module-margin-right = 0
+padding-left = 0
+padding-right = 0 
+module-margin-left = 1
+module-margin-right = 2
 
-font-0 = Ubuntu:style=Bold:size=14;3
-font-1 = FontAwesome6Free:style=Solid:size=14;3
-font-2 = NotoSansMono:style=Regular:size=14;3
+font-0 = Hack Nerd Font:style=Regular:size=18;2
+font-1 = Hack Nerd Font:style=Bold:size=22;2
+font-2 = Hack Nerd Font:style=Regular:size=22;2
 
-modules-left = i3 
-modules-center = date
-modules-right = gpu-temp cpu memory battery pulseaudio 
-
-tray-position = right
-tray-padding = 4
-tray-background = ${colors.background-alt}
-tray-maxsize = 24
+modules-left = i3
+modules-right = gpu_temp cpu ram disk ip network volume date
 
 wm-restack = i3
-
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
-pseudo-transparency = true
 
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
-pin-workspaces = true
-strip-wsnumbers = false
 
 label-mode-padding = 2
 label-mode-foreground = ${colors.foreground}
-label-mode-background = ${colors.secondary}
-label-mode-underline = ${colors.secondary}
+label-mode-background = ${colors.dark-green}
 
-label-focused =  %name%
-label-focused-background = ${colors.background-alt}
-label-focused-foreground = ${colors.primary}
+label-focused = %name%
+label-focused-background = ${colors.green-accent}
+label-focused-foreground = ${colors.background}
 label-focused-padding = 2
-label-focused-underline = ${colors.primary}
+label-focused-underline = ${colors.green-accent}
 
-label-unfocused =  %name%
-label-unfocused-foreground = ${colors.foreground-alt}
+label-unfocused = %name%
+label-unfocused-background = ${colors.background}
+label-unfocused-foreground = ${colors.foreground}
 label-unfocused-padding = 2
 
-label-visible =  %name%
-label-visible-background = ${colors.background-alt}
-label-visible-foreground = ${colors.accent}
+label-visible = %name%
+label-visible-background = ${colors.background}
+label-visible-foreground = ${colors.foreground}
 label-visible-padding = 2
 
-label-urgent =  %name%
-label-urgent-background = ${colors.alert}
-label-urgent-foreground = ${colors.foreground}
+label-urgent = %name%
+label-urgent-background = ${colors.background}
+label-urgent-foreground = ${colors.warning}
 label-urgent-padding = 2
 
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:50:...%
-label-foreground = ${colors.foreground}
-format-padding = 2
-format-prefix =  
-format-prefix-foreground = ${colors.accent}
-format-underline = ${colors.accent}
+[module/gpu_temp]
+type = custom/script
+exec = ~/.config/polybar/gpu_temp.sh
+interval = 5
+format = <label>°
+format-prefix = ""
+format-prefix-foreground = ${colors.green-accent}
+label = %output%
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.green-accent}
+label = %percentage%%
+
+[module/ram]
+type = internal/memory
+interval = 2
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.green-accent}
+label = %percentage_used%%
+
+[module/disk]
+type = internal/fs
+interval = 25
+mount-0 = /
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.green-accent}
+label = %percentage_used%%
+
+[module/ip]
+type = internal/network
+interface = enp90s0
+interval = 5
+format-connected = <label-connected>
+format-connected-prefix = "󰇚 "
+format-connected-prefix-foreground = ${colors.green-accent}
+label-connected = %local_ip%
+format-disconnected = <label-disconnected>
+format-disconnected-prefix = "󰇚 "
+format-disconnected-prefix-foreground = ${colors.warning}
+label-disconnected = N/A
+
+[module/network]
+type = internal/network
+interface = enp90s0
+interval = 2
+format-connected = <label-connected>
+format-connected-prefix = "IN "
+format-connected-prefix-foreground = ${colors.green-accent}
+label-connected = %downspeed%
+format-connected-suffix = " OUT "
+format-connected-suffix-foreground = ${colors.green-accent}
+label-connected-suffix = %upspeed%
+format-disconnected = <label-disconnected>
+format-disconnected-prefix = "NET "
+format-disconnected-prefix-foreground = ${colors.alt-foreground}
+label-disconnected = Disconnected
+
+[module/volume]
+type = custom/script
+exec = ~/.config/polybar/volume.sh
+interval = 0.2
+
+format-prefix = " "
+format-prefix-foreground = ${colors.green-accent}
+
 
 [module/date]
 type = internal/date
 interval = 1
-date = %a, %d %b
-time = %H:%M
+date = %A, %d %B %Y %H:%M:%S
 format = <label>
-format-prefix =  
-format-prefix-foreground = ${colors.green}
-# format-background = ${colors.background-alt}
-; format-underline = ${colors.accent}
-format-padding = 2
-label = %date% %time%
-label-maxlen = 25
-
-[module/cpu]
-type = internal/cpu
-interval = 1
-format = <label>
-format-prefix = "CPU: "
-format-prefix-foreground = ${colors.accent}
-# format-background = ${colors.background-alt}
-# format-underline = ${colors.primary}
-format-padding = 2
-label = %percentage:2%%
-
-[module/memory]
-type = internal/memory
-interval = 1
-format = <label>
-format-prefix = "RAM: "
-format-prefix-foreground = ${colors.accent}
-# format-background = ${colors.background-alt}
-# format-underline = ${colors.green}
-format-padding = 2
-label = %percentage_used%%
-
-[module/filesystem]
-type = internal/fs
-interval = 30
-mount-0 = /
-format-mounted = <label-mounted>
-format-mounted-prefix = "Disk: "
-format-mounted-prefix-foreground = ${colors.secondary}
-format-mounted-background = ${colors.background-alt}
-format-mounted-underline = ${colors.secondary}
-format-mounted-padding = 2
-label-mounted = %percentage_used%%%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.alert}
-label-unmounted-padding = 2
-
-[module/wlan]
-type = internal/network
-interface-type = wireless
-interval = 3.0
-format-connected = <label-connected>
-format-connected-prefix = "WiFi: "
-format-connected-prefix-foreground = ${colors.green}
-format-connected-background = ${colors.background-alt}
-format-connected-underline = ${colors.green}
-format-connected-padding = 2
-label-connected = %essid%
-label-connected-maxlen = 15
-
-format-disconnected = <label-disconnected>
-format-disconnected-prefix = "WiFi: "
-format-disconnected-prefix-foreground = ${colors.alert}
-format-disconnected-padding = 2
-label-disconnected = Off
-label-disconnected-foreground = ${colors.alert}
-
-[module/eth]
-type = internal/network
-interface-type = wired
-interval = 3.0
-format-connected = <label-connected>
-format-connected-prefix = "Eth: "
-format-connected-prefix-foreground = ${colors.green}
-format-connected-background = ${colors.background-alt}
-format-connected-underline = ${colors.green}
-format-connected-padding = 2
-label-connected = %local_ip%
-label-connected-maxlen = 15
-
-format-disconnected = <label-disconnected>
-format-disconnected-prefix = "Eth: "
-format-disconnected-prefix-foreground = ${colors.alert}
-format-disconnected-padding = 2
-label-disconnected = Off
-label-disconnected-foreground = ${colors.alert}
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = AC
-full-at = 98
-time-format = %H:%M
-format-charging = <animation-charging> <label-charging>
-format-charging-prefix = "Bat: "
-format-charging-background = ${colors.background-alt}
-format-charging-underline = ${colors.green}
-format-charging-padding = 2
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-background = ${colors.background-alt}
-format-discharging-underline = ${colors.alert}
-format-discharging-padding = 2
-format-full = <label-full>
-format-full-prefix = "Bat: "
-format-full-prefix-foreground = ${colors.green}
-format-full-background = ${colors.background-alt}
-format-full-underline = ${colors.green}
-format-full-padding = 2
-
-label-charging = %percentage%% (%time%)
-label-discharging = %percentage%% (%time%)
-label-full = Full
-
-animation-charging-0 =  
-animation-charging-1 =  
-animation-charging-2 =  
-animation-charging-3 =  
-animation-charging-4 =  
-animation-charging-foreground = ${colors.green}
-animation-charging-framerate = 500
-
-ramp-capacity-0 =  
-ramp-capacity-1 =  
-ramp-capacity-2 =  
-ramp-capacity-3 =  
-ramp-capacity-4 =  
-ramp-capacity-foreground = ${colors.alert}
-
-[module/pulseaudio]
-type = internal/pulseaudio
-format-volume = <label-volume>
-format-volume-prefix = "Vol: "
-format-volume-prefix-foreground = ${colors.accent}
-# format-volume-background = ${colors.background-alt}
-# format-volume-underline = ${colors.primary}
-format-volume-padding = 2
-label-volume = %percentage%%
-label-muted = "Vol: Muted"
-label-muted-foreground = ${colors.alert}
-label-muted-background = ${colors.background-alt}
-label-muted-padding = 2
-
-[module/gpu-temp]
-type = custom/script
-exec = ~/.config/polybar/scripts/gpu-temp.sh
-interval = 5
-format = <label>
-format-prefix = "GPU: "
-format-prefix-foreground = ${colors.accent}
-# format-background = ${colors.background-alt}
-# format-underline = ${colors.accent}
-format-padding = 2
-label = %output%
-
-[module/powermenu]
-type = custom/menu
-format-spacing = 1
-format-background = ${colors.background-alt}
-format-underline = ${colors.secondary}
-format-padding = 2
-label-open =  
-label-open-foreground = ${colors.secondary}
-label-close =  
-label-close-foreground = ${colors.foreground-alt}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = Reboot
-menu-0-0-exec = systemctl reboot
-menu-0-1 = Shutdown
-menu-0-1-exec = systemctl poweroff
-menu-0-2 = Logout
-menu-0-2-exec = i3-msg exit
+format-prefix = "󰥔 "
+format-prefix-foreground = ${colors.green-accent}
+label = %date%
 
 [settings]
 screenchange-reload = true
-pseudo-transparency = true
 
 [global/wm]
 margin-top = 0
 margin-bottom = 0
 
-; vim:ft=dosini
+

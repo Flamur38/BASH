@@ -7,4 +7,5 @@ Xft.antialias: true
 Xft.hinting: true
 Xft.hintstyle: hintslight
 Xft.rgba: rgb
+Xcursor.size: 38
 
