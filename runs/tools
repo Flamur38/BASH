@@ -2,7 +2,7 @@
 
 # 1. Install base packages
 sudo apt install -y terminator build-essential python3 python3-pip tcpdump htop zsh dirb whois rdesktop nodejs ripgrep fd-find xclip flameshot \
-    i3blocks i3 i3status feh picom arandr polybar wireshark dhclient
+    i3blocks i3 i3status feh picom arandr polybar wireshark dhclient tshark
 
 # 2. Fix missing npm (Ubuntu issue)
 if ! command -v npm &>/dev/null; then
