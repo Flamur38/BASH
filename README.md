@@ -62,7 +62,7 @@ chmod +x runs/*
 
 ## 🛠 Requirements
 
-- Linux (Debian/Ubuntu-based preferred)
+- Linux (Debian/Ubuntu-based preferred.)
 - `git`, `curl`, `wget`
 - Superuser privileges (`sudo`)
 
