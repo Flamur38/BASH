@@ -45,5 +45,5 @@ if [ -z "$ping_time" ]; then
 fi
 
 # Output the VPN connection status
-echo "⬢ connected $server_name $htbip [$ping_time ms]"
+echo "⬢ connected: $server_name $htbip [$ping_time ms]"
 

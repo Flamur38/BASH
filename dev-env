@@ -64,7 +64,7 @@ copy_dir configs/Pictures $HOME/Pictures
 # Copy dotfiles to $HOME
 copy_file configs/.zshrc $HOME
 copy_file configs/.zsh_profile $HOME
-copy_file configs/.bashrc $HOME
+# copy_file configs/.bashrc $HOME
 copy_file configs/.tmux.conf $HOME
 copy_file configs/.xinitrc $HOME
 copy_file configs/.xprofile $HOME
