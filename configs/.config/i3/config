@@ -59,12 +59,6 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# split in horizontal orientation
-bindsym $mod+z split h
-
-# split in vertical orientation
-bindsym $mod+v split v
-
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
@@ -76,11 +70,63 @@ bindsym $mod+e layout toggle split
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
+# Floating dialogs
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
 # focus the parent container
 bindsym $mod+a focus parent
 
-# focus the child container
-#bindsym $mod+d focus child
+# Manual color settings.
+# red theme
+set $xforeground #c5c8c6
+set $xbackground #1d1f21
+set $xcursor #c5c8c6
+set $xcolor0 #282a2e
+set $xcolor8 #373b41
+set $xcolor1 #a54242
+set $xcolor9 #cc6666
+set $xcolor2 #8c9440
+set $xcolor10 #b5bd68
+set $xcolor3 #de935f
+set $xcolor11 #f0c674
+set $xcolor4 #5f819d
+set $xcolor12 #81a2be
+set $xcolor5 #85678f
+set $xcolor13 #b294bb
+set $xcolor6 #5e8d87
+set $xcolor14 #8abeb7
+set $xcolor7 #707880
+set $xcolor15 #c5c8c6
+# blue theme
+# set $xforeground #c5c8c6
+# set $xbackground #1d1f21
+# set $xcursor #c5c8c6
+# set $xcolor0 #0d3264
+# set $xcolor8 #373b41
+# set $xcolor1 #467ecb
+# set $xcolor9 #cc6666
+# set $xcolor2 #8c9440
+# set $xcolor10 #b5bd68
+# set $xcolor3 #de935f
+# set $xcolor11 #f0c674
+# set $xcolor4 #5f819d
+# set $xcolor12 #81a2be
+# set $xcolor5 #85678f
+# set $xcolor13 #b294bb
+# set $xcolor6 #6298e0
+# set $xcolor14 #8abeb7
+# set $xcolor7 #707880
+# set $xcolor15 #c5c8c6
+
+# Colors
+# Class                 border          backgr      text            indic
+client.focused          $xcolor6       $xcolor1     $xbackground   $xcolor7
+client.focused_inactive $xcolor6       $xcolor0     $xcolor14
+client.unfocused        $xcolor6       $xcolor0     $xcolor14
+client.urgent           $xbackground   $xcolor9     $xbackground
+client.placeholder      $xcolor7       $xcolor7     $xcolor14
+
 
 # # switch to workspace
 bindsym $mod+1 workspace 1
@@ -144,9 +190,52 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command bash ~/.config/i3/status.sh
-        tray_output DP-4
+        tray_output Virtual1
         position top
+
+        colors {
+            #Where      #Color
+            background  $xbackground
+            statusline  $xforeground
+
+            #Where              #Border         #Background     #Text
+            focused_workspace   $xbackground    $xcolor1        $xbackground
+            #urgent_workspace    $xbackground    $xcolor9        $xbackground
+            urgent_workspace    $xbackground    $xcolor1        $xbackground
+            inactive_workspace  $xbackground    $xcolor0        $xforeground
+        }
+
 }
+
+# Back and forth when pressing the same workspace keybind
+workspace_auto_back_and_forth yes
+
+# Display urgent notification on windows
+force_display_urgency_hint 500 ms
+
+# Locker configuration
+set $Locker i3lock -d -c $black0 -f
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown, (b) off-screen
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym b exec --no-startup-id sleep 1 && xset dpms force off, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $modkey+Shift+e mode "$mode_system"
+
+# i3-gaps configuration
+gaps inner 10
+gaps outer 0
+smart_gaps on
 
 
 # ------------------------------------------
@@ -176,7 +265,8 @@ bindsym $mod+comma exec ~/.config/i3/scripts/alsa up Headphone
 bindsym $mod+m move workspace to output left
 
 # Set wallpaper
-exec_always feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+# exec_always feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+exec_always feh --bg-scale /home/flamy/Pictures/background.jpg
 # Remove boarders on single window:
 # smart_borders on
 
@@ -195,8 +285,7 @@ bindsym $mod+Shift+Right move container to output right
 
 # Fan Control
 # Allow root user to access X session (required for nvidia-settings with sudo)
-exec --no-startup-id xhost +SI:localuser:root
-# Set manual fan control at startup
-exec --no-startup-id ~/.config/i3/set-fan.sh
+# exec --no-startup-id xhost +SI:localuser:root
 
-
+# # Set manual fan control at startup
+# exec --no-startup-id ~/.config/i3/set-fan.sh
