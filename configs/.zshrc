@@ -78,8 +78,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PROMPT=$'%{\e[1;34m%}@%m%{\e[1;31m%}[%{\e[1;37m%}%~%{\e[1;31m%}]\n%{\e[38;5;208m%}>>>%{\e[39;5;208m%} %{\e[0m%}'
-   
+    # PROMPT=$'%{\e[1;34m%}@%m%{\e[1;31m%}[%{\e[1;37m%}%~%{\e[1;31m%}]\n%{\e[38;5;208m%}>>>%{\e[39;5;208m%} %{\e[0m%}'
+PROMPT=$'%F{blue}%B@%m%b%F{green}%B[%F{reset}%B%~%b%F{green}%B]%b\n%F{green}%B>>>%b%F{blue}%B$%b %F{reset}'
+
 #     PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)──}(%B%F{%(#.red.blue)}%n%(#.@.@)%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]
 # └─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
     RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
@@ -193,7 +194,7 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
-# # enable auto-suggestions based on the history
+# enable auto-suggestions based on the history
 # if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 #     . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 #     # change suggestion color
@@ -203,6 +204,5 @@ alias l='ls -CF'
 # BPT bash_profile saved to .zsh_proflie
 source ~/.zsh_profile
 
-# Created by `pipx` on 2025-08-31 10:36:24
+# Created by `pipx` on 2025-09-07 10:26:42
 export PATH="$PATH:/home/flamy/.local/bin"
-export PATH="$HOME/.local/bin:$PATH"
