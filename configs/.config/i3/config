@@ -419,7 +419,7 @@ mode "$mode_gaps_outer" {
 # Please remove the following exec line:
 #######################################################################
 exec --no-startup-id compton
-exec --no-startup-id feh --bg-scale ~/Pictures/background.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/warty-final-ubuntu.png
 exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
 exec --no-startup-id numlockx on
