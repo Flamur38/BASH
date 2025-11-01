@@ -78,11 +78,16 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    # PROMPT=$'%{\e[1;34m%}@%m%{\e[1;31m%}[%{\e[1;37m%}%~%{\e[1;31m%}]\n%{\e[38;5;208m%}>>>%{\e[39;5;208m%} %{\e[0m%}'
-PROMPT=$'%F{blue}%B@%m%b%F{green}%B[%F{reset}%B%~%b%F{green}%B]%b\n%F{green}%B>>>%b%F{blue}%B$%b %F{reset}'
+# PROMPT=$'%{\e[1;38;5;26m%}@%m%{\e[1;37m%}:%{\e[1;32m%}[%{\e[1;38;5;231m%}%~%{\e[1;32m%}]\n%{\e[1;38;5;215m%}>>> $%{\e[1;38m%} %{\e[0m%}'
+PROMPT=$'%{\e[1;32m%}@%m%{\e[1;32m%}[%{\e[0;34m%}%~%{\e[1;32m%}]\n%{\e[1;33m%}>>> $%{\e[1;38m%} %{\e[0m%}'
+# PROMPT=$'%{\e[0;32m%}%* %{\e[1;38;5;26m%}%m%{\e[0m%}:%{\e[38;5;245m%}[%~]\n%{\e[0;38;5;241m%}>>> %{\e[0;38;5;231m%}$ %{\e[0m%}'
 
+# PROMPT=$'%{\e[0;35m%}%* %{\e[1;38;5;26m%}%n%{\e[0;37m%}:%{\e[1;38;5;245m%}%1~%{\e[0;37m%}$ %{\e[0m%}'
+
+  
 #     PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)──}(%B%F{%(#.red.blue)}%n%(#.@.@)%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]
 # └─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+
     RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
     # enable syntax-highlighting
@@ -126,7 +131,7 @@ PROMPT=$'%F{blue}%B@%m%b%F{green}%B[%F{reset}%B%~%b%F{green}%B]%b\n%F{green}%B>>
 	ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
 	ZSH_HIGHLIGHT_STYLES[named-fd]=none
 	ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
-	ZSH_HIGHLIGHT_STYLES[arg0]=fg=green
+	ZSH_HIGHLIGHT_STYLES[arg0]=fg=cyan
 	ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
 	ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
 	ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
@@ -194,7 +199,7 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
-# enable auto-suggestions based on the history
+# # enable auto-suggestions based on the history
 # if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 #     . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 #     # change suggestion color
@@ -204,5 +209,6 @@ alias l='ls -CF'
 # BPT bash_profile saved to .zsh_proflie
 source ~/.zsh_profile
 
-# Created by `pipx` on 2025-09-07 10:26:42
+# Created by `pipx` on 2025-08-31 10:36:24
 export PATH="$PATH:/home/flamy/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
