@@ -78,15 +78,17 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-# PROMPT=$'%{\e[1;38;5;26m%}@%m%{\e[1;37m%}:%{\e[1;32m%}[%{\e[1;38;5;231m%}%~%{\e[1;32m%}]\n%{\e[1;38;5;215m%}>>> $%{\e[1;38m%} %{\e[0m%}'
-PROMPT=$'%{\e[1;34m%}@%m%{\e[1;31m%}[%{\e[0;37m%}%~%{\e[1;31m%}]\n%{\e[1;33m%}>>> $%{\e[1;38m%} %{\e[0m%}'
-# PROMPT=$'%{\e[0;32m%}%* %{\e[1;38;5;26m%}%m%{\e[0m%}:%{\e[38;5;245m%}[%~]\n%{\e[0;38;5;241m%}>>> %{\e[0;38;5;231m%}$ %{\e[0m%}'
+# PROMPT=$'%{\e[1;38;5;26m%}@%m%{\e[1;38;5;190m%}[%{\e[0;38;5;231m%}%~%{\e[1;38;5;190m%}]\n%{\e[1;33m%}>>> %{\e[1;38;5;26m%}$%{\e[1;38m%} %{\e[0m%}'
+# PROMPT=$'%{\e[0;31m%}%* %{\e[1;38;5;26m%}%n%{\e[0;37m%}:%{\e[1;38;5;245m%}%1~%{\e[0;37m%}$ %{\e[0m%}'
 
-# PROMPT=$'%{\e[0;35m%}%* %{\e[1;38;5;26m%}%n%{\e[0;37m%}:%{\e[1;38;5;245m%}%1~%{\e[0;37m%}$ %{\e[0m%}'
-
-  
-#     PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)──}(%B%F{%(#.red.blue)}%n%(#.@.@)%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]
-# └─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+get_two_dirs() {
+    # print last two directories of $PWD
+    printf "%s/%s" "${PWD:h:t}" "${PWD:t}"
+}
+PROMPT='%{[0;35m%}[$(date +"%d-%b-%y %T %Z")] %{[0;38;5;26m%}$(get_two_dirs)\
+%{[1;38;5;190m%}
+>>> %{[00m%}'
+ 
 
     RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
