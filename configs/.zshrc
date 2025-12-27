@@ -81,14 +81,12 @@ if [ "$color_prompt" = yes ]; then
 # PROMPT=$'%{\e[1;38;5;26m%}@%m%{\e[1;38;5;190m%}[%{\e[0;38;5;231m%}%~%{\e[1;38;5;190m%}]\n%{\e[1;33m%}>>> %{\e[1;38;5;26m%}$%{\e[1;38m%} %{\e[0m%}'
 # PROMPT=$'%{\e[0;31m%}%* %{\e[1;38;5;26m%}%n%{\e[0;37m%}:%{\e[1;38;5;245m%}%1~%{\e[0;37m%}$ %{\e[0m%}'
 
-get_two_dirs() {
-    # print last two directories of $PWD
-    printf "%s/%s" "${PWD:h:t}" "${PWD:t}"
-}
-PROMPT='%{[0;35m%}[$(date +"%d-%b-%y %T %Z")] %{[0;38;5;26m%}$(get_two_dirs)\
-%{[1;38;5;190m%}
->>> %{[00m%}'
- 
+PROMPT='%F{magenta}[%D{%d-%b-%y %T %Z}] %F{blue}%~%f
+%F{190}>>> %f'
+
+# PROMPT='%F{magenta}[%D{%d-%b-%y %T %Z}] %F{blue}%~%f
+# %F{210}>>> %f'
+
 
     RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
