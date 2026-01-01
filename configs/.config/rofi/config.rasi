@@ -1,0 +1,114 @@
+configuration {
+    modi: "drun,run,window,ssh";
+    show-icons: true;
+    icon-theme: "Yaru";
+    font: "Ubuntu 12";
+}
+
+* {
+    bg:     #1E1E1E;
+    fg:     #EDEDED;
+    fg-alt: #AAAAAA;
+    accent: #E95420;
+}
+
+window {
+    width: 45%;
+    padding: 20px;
+    border: 0;
+    border-radius: 12px;
+    background-color: @bg;
+}
+
+mainbox {
+    spacing: 10px;
+}
+
+inputbar {
+    padding: 12px;
+    spacing: 10px;
+    border-radius: 10px;
+    background-color: @bg;
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    text-color: @fg;
+    placeholder: "Search…";
+    placeholder-color: @fg-alt;
+}
+
+listview {
+    lines: 10;
+    spacing: 6px;
+    background-color: @bg;
+    border: 0;
+}
+
+element {
+    padding: 10px;
+    spacing: 10px;
+    border-radius: 8px;
+    background-color: @bg;
+    text-color: @fg;
+    border: 0;
+}
+
+/* NORMAL */
+element normal.normal {
+    background-color: @bg;
+    text-color: @fg;
+}
+
+/* ALTERNATE (KILLS WHITE STRIPES) */
+element alternate.normal {
+    background-color: @bg;
+    text-color: @fg;
+}
+
+/* SELECTED */
+element selected.normal {
+    background-color: @accent;
+    text-color: #FFFFFF;
+}
+
+/* URGENT */
+element urgent.normal {
+    background-color: #C01C28;
+    text-color: #FFFFFF;
+}
+
+element-icon {
+    size: 28px;
+}
+
+element-text {
+    vertical-align: 0.5;
+}
+
+mode-switcher {
+    spacing: 10px;
+}
+
+button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: @bg;
+    text-color: @fg;
+    border: 0;
+}
+
+button selected {
+    background-color: @accent;
+    text-color: #FFFFFF;
+}
+
+/* REMOVE SCROLLBAR LINE */
+scrollbar {
+    width: 0;
+    handle-width: 0;
+    background-color: transparent;
+}
