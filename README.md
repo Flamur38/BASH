@@ -47,7 +47,7 @@ git clone https://github.com/Flamur38/BASH.git
 cd BASH 
 ```
 
-Run the setup scripts:
+Run the setup scripts
 
 ```bash
 chmod +x runs/*
