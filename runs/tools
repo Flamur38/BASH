@@ -17,9 +17,7 @@ if command -v npm &>/dev/null; then
 fi
 
 
-# 5. Symlink fd if needed
-if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then
-    mkdir -p "$HOME/.local/bin"
+# 5. Symlink fd if needed if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then mkdir -p "$HOME/.local/bin"
     ln -sf "$(which fdfind)" "$HOME/.local/bin/fd"
     export PATH="$HOME/.local/bin:$PATH"
 fi
