@@ -1,4 +1,8 @@
 #!/usr/bin/env zsh
+
+[[ -n "$__ZSH_PROFILE_LOADED" ]] && return
+export __ZSH_PROFILE_LOADED=1
+
 # ============================================
 # ZSH PROFILE — environment & PATH only
 # ============================================
