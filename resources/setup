@@ -1,16 +1,27 @@
 #!/usr/bin/env bash
-sudo apt -y update
+set -e
 
-if ! command -v git &> /dev/null; then
-    sudo apt -y install git
+echo "[+] Updating system"
+sudo apt update -y
+
+echo "[+] Ensuring git is installed"
+if ! command -v git >/dev/null; then
+    sudo apt install -y git
 fi
 
-if [ ! -d $HOME/personal ]; then
-    mkdir $HOME/personal
+DEV_DIR="$HOME/personal/dev"
+
+echo "[+] Preparing workspace"
+mkdir -p "$HOME/personal"
+
+if [ ! -d "$DEV_DIR" ]; then
+    git clone https://github.com/Flamur38/dev "$DEV_DIR"
+else
+    echo "[!] Repo already exists, pulling updates"
+    git -C "$DEV_DIR" pull
 fi
 
-git clone https://github.com/Flamur38/dev $HOME/personal/dev
-
-pushd $HOME/personal/dev
+echo "[+] Running dev environment installer"
+cd "$DEV_DIR"
+chmod +x run
 ./run
-popd
