@@ -1,38 +1,41 @@
 #!/usr/bin/env bash
-script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+set -e
 
-# if [ -z "$DEV_ENV" ]; then
-#     echo "env var DEV_ENV needs to be present"
-#     exit 1
-# fi
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-# auto-set DEV_ENV to repo root
-if [ -z "$DEV_ENV" ]; then
+# ---------------------------------------------------
+# DEV_ENV handling
+# ---------------------------------------------------
+if [[ -z "$DEV_ENV" ]]; then
     DEV_ENV="$script_dir"
 fi
 export DEV_ENV
 
-
-# if i just did DEV_ENV=$(pwd) ./run then this is needed for the rest of the
-# scripts
-export DEV_ENV="$DEV_ENV"
-
+# ---------------------------------------------------
+# Args
+# ---------------------------------------------------
 grep=""
 dry_run="0"
 
 while [[ $# -gt 0 ]]; do
     echo "ARG: \"$1\""
-    if [[ "$1" == "--dry" ]]; then
-        dry_run="1"
-    else
-        grep="$1"
-    fi
+    case "$1" in
+        --dry|--dry-run)
+            dry_run="1"
+            ;;
+        *)
+            grep="$1"
+            ;;
+    esac
     shift
 done
 
+# ---------------------------------------------------
+# Logging
+# ---------------------------------------------------
 log() {
-    if [[ $dry_run == "1" ]]; then
-        echo "[DRY_RUN]: $1"
+    if [[ "$dry_run" == "1" ]]; then
+        echo "[DRY_RUN] $1"
     else
         echo "$1"
     fi
@@ -40,37 +43,31 @@ log() {
 
 log "RUN: env: $DEV_ENV -- grep: $grep"
 
-runs_dir=`find $script_dir/runs -mindepth 1 -maxdepth 1 -executable`
+# ---------------------------------------------------
+# Execute matching run script
+# ---------------------------------------------------
+runs_dir=$(find "$script_dir/runs" -mindepth 1 -maxdepth 1 -type f -executable)
 
 for s in $runs_dir; do
-    if basename $s | grep -vq "$grep"; then
+    name="$(basename "$s")"
+
+    if [[ -n "$grep" ]] && ! echo "$name" | grep -q "$grep"; then
         log "grep \"$grep\" filtered out $s"
         continue
     fi
 
     log "running script: $s"
 
-    if [[ $dry_run == "0" ]]; then
-        $s
+    if [[ "$dry_run" == "0" ]]; then
+        "$s"
     fi
+
+    # IMPORTANT: run only once
+    break
 done
 
-log "RUN: env: $env -- grep: $grep"
 
-runs_dir=`find $script_dir/runs -mindepth 1 -maxdepth 1 -executable`
 
-for s in $runs_dir; do
-    if basename $s | grep -vq "$grep"; then
-        log "grep \"$grep\" filtered out $s"
-        continue
-    fi
-
-    log "running script: $s"
-
-    if [[ $dry_run == "0" ]]; then
-        $s
-    fi
-done
 
 #remove_files() {
 #    pushd $1
