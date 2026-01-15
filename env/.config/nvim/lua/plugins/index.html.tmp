@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Directory listing for /nvim/lua/plugins/</title>
+</head>
+<body>
+<h1>Directory listing for /nvim/lua/plugins/</h1>
+<hr>
+<ul>
+<li><a href="cmp.lua">cmp.lua</a></li>
+<li><a href="colors.lua">colors.lua</a></li>
+<li><a href="harpoon.lua">harpoon.lua</a></li>
+<li><a href="lsp.lua">lsp.lua</a></li>
+<li><a href="telescope.lua">telescope.lua</a></li>
+<li><a href="treesitter.lua">treesitter.lua</a></li>
+</ul>
+<hr>
+</body>
+</html>
