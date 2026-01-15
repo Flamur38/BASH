@@ -1,6 +1,39 @@
 #!/usr/bin/env bash
 set -e
 
+# --------------------------------
+# Remove conflicting distro Docker packages
+# --------------------------------
+sudo apt remove -y \
+  docker.io \
+  docker-cli \
+  docker-buildx \
+  docker-compose \
+  containerd \
+  runc || true
+
+
+# --------------------------------
+# HARD RESET: remove Docker repo from ALL apt source formats
+# --------------------------------
+
+# classic sources.list
+sudo sed -i '/download\.docker\.com/d' /etc/apt/sources.list
+
+# legacy .list files
+sudo sed -i '/download\.docker\.com/d' /etc/apt/sources.list.d/*.list 2>/dev/null || true
+
+# deb822 .sources files (THIS WAS THE MISSING PIECE)
+for f in /etc/apt/sources.list.d/*.sources; do
+    [ -f "$f" ] || continue
+    if grep -q 'download.docker.com' "$f"; then
+        sudo rm -f "$f"
+    fi
+done
+
+# remove all docker keys (both locations)
+sudo rm -f /etc/apt/keyrings/docker*.gpg
+sudo rm -f /usr/share/keyrings/docker*.gpg
 
 # --------------------------------
 # Base dependencies
@@ -13,7 +46,19 @@ sudo apt install -y \
   lsb-release
 
 # --------------------------------
-# Docker GPG key
+# Detect distro codename for Docker
+# --------------------------------
+. /etc/os-release
+
+# Parrot uses VERSION_CODENAME=echo (unsupported by Docker)
+if [[ "$VERSION_CODENAME" == "echo" ]]; then
+    DOCKER_CODENAME="bookworm"
+else
+    DOCKER_CODENAME="$VERSION_CODENAME"
+fi
+
+# --------------------------------
+# Docker GPG key (fresh)
 # --------------------------------
 sudo install -m 0755 -d /etc/apt/keyrings
 
@@ -23,19 +68,18 @@ curl -fsSL https://download.docker.com/linux/debian/gpg \
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
 # --------------------------------
-# Debian repo (NOT Ubuntu)
+# Docker repo (single source of truth)
 # --------------------------------
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt update
+cat <<EOF | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/debian \
+$DOCKER_CODENAME stable
+EOF
 
 # --------------------------------
 # Install Docker
 # --------------------------------
+sudo apt update
 sudo apt install -y \
   docker-ce \
   docker-ce-cli \
@@ -50,7 +94,10 @@ sudo systemctl enable docker
 sudo systemctl start docker
 
 # --------------------------------
-# Docker group (no sudo needed)
+# Docker group (idempotent)
 # --------------------------------
 sudo groupadd -f docker
 sudo usermod -aG docker "$USER"
+
+sudo apt autoremove -y
+
