@@ -16,28 +16,36 @@ export DENO_INSTALL="$HOME/.deno"
 export N_PREFIX="$HOME/.local/n"
 
 # ---- Helper functions for PATH management ----
-add_to_path() {
-    [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && PATH="$PATH:$1"
+# Add to PATH (end) only if missing
+addToPath() {
+    case ":$PATH:" in
+        *":$1:"*) ;;                 # already present → do nothing
+        *) PATH="$PATH:$1" ;;        # append
+    esac
 }
 
-add_to_path_front() {
-    [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && PATH="$1:$PATH"
+# Add to PATH (front) only if missing
+addToPathFront() {
+    case ":$PATH:" in
+        *":$1:"*) ;;                 # already present → do nothing
+        *) PATH="$1:$PATH" ;;        # prepend
+    esac
 }
 
 # ---- PATH entries (ordered, no duplicates) ----
-add_to_path_front "$HOME/.local/bin"
-add_to_path_front "$HOME/.local/scripts"
+addToPathFront "$HOME/.local/bin"
+addToPathFront "$HOME/.local/scripts"
 
-add_to_path_front "$HOME/.local/n/bin"
-add_to_path_front "$HOME/.deno/bin"
+addToPathFront "$HOME/.local/n/bin"
+addToPathFront "$HOME/.deno/bin"
 
-add_to_path_front "$HOME/.local/go/bin"
-add_to_path_front "/usr/local/go/bin"
+addToPathFront "$HOME/.local/go/bin"
+addToPathFront "/usr/local/go/bin"
 
-add_to_path "$HOME/.cargo/bin"
+addToPath "$HOME/.cargo/bin"
 
-# ---- Optional tools (only if installed) ----
-add_to_path "$HOME/personal/ghostty/zig-out/bin"
+# ---- Optional tools (only if they exist) ----
+addToPath "$HOME/personal/ghostty/zig-out/bin"
 
 # ---- fzf (safe optional source) ----
 [[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
