@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+sudo apt install -y i3 i3-wm i3status xbacklight pavucontrol pulseaudio-utils rofi
+
+
+sudo mkdir -p /etc/htb/
+

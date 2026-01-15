@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
 
-green() {
-  GREEN="\033[0;32m"
-  RESET="\033[0m"
-  echo -e "${GREEN}$1${RESET}"
-}
-
-green ">>> Disabling broken Spotify repo (if exists)..."
 if [ -f /etc/apt/sources.list.d/spotify.list ]; then
   sudo sed -i 's|^deb .*spotify.com.*|#&|' /etc/apt/sources.list.d/spotify.list
 fi
 
-green ">>> Adding Neovim PPA and installing dependencies..."
 
 sudo apt update
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
@@ -28,8 +20,6 @@ ln -sf "$(which fdfind)" ~/.local/bin/fd
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 export PATH="$HOME/.local/bin:$PATH"
 
-green ">>> Booting Neovim to trigger Lazy.nvim plugin install..."
 
 nvim --headless "+Lazy! sync" +qa
 
-green "========= All Plugins are Installed ========="

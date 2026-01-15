@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-GREEN="\033[0;32m"
-RESET="\033[0m"
-
-# Helper for green status messages
-status() {
-    echo -e "${GREEN}======= $1 =======${RESET}"
-}
 
 # 1. Install tmux
 status "Installing tmux"

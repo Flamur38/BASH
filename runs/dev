@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -e
+
+# -----------------------------
+# Base build tools (Arch: base-devel)
+# -----------------------------
+sudo apt update
+sudo apt install -y \
+  build-essential \
+  curl \
+  git \
+  wget \
+  ca-certificates \
+  software-properties-common \
+  gnupg \
+  lsb-release
+
+# -----------------------------
+# Core packages
+# -----------------------------
+sudo apt install -y \
+  gimp \
+  tldr \
+  golang \
+  fzf \
+  rofi \
+  btop \
+  bc \
+  nodejs \
+  npm \
+  ffmpeg \
+  aalib \
+  dosfstools \
+  arp-scan \
+  avahi-daemon \
+  avahi-utils \
+  nss-mdns
+
+# -----------------------------
+# Stylua (no official apt)
+# -----------------------------
+curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip -o /tmp/stylua.zip
+sudo unzip -o /tmp/stylua.zip -d /usr/local/bin
+sudo chmod +x /usr/local/bin/stylua
+
+# -----------------------------
+# Go tools
+# -----------------------------
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+go install github.com/air-verse/air@latest
+
+# -----------------------------
+# Love2D
+# -----------------------------
+sudo apt install -y love
+
+# -----------------------------
+# Fonts (Arch: nerd fonts + font-awesome)
+# -----------------------------
+sudo apt install -y \
+  fonts-font-awesome \
+  fonts-jetbrains-mono
+
+# Nerd Fonts (manual install)
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/latest/download/NerdFontsSymbolsOnly.zip
+unzip -o JetBrainsMono.zip
+unzip -o NerdFontsSymbolsOnly.zip
+fc-cache -fv
+
+# -----------------------------
+# Waybar
+# -----------------------------
+sudo apt install -y waybar
+
+# -----------------------------
+# Hyprland ecosystem
+# -----------------------------
+sudo apt install -y \
+  hyprland \
+  hyprpaper \
+  grim \
+  slurp \
+  wl-clipboard
+
+# Hyprshot (script, no apt)
+sudo wget -O /usr/local/bin/hyprshot https://raw.githubusercontent.com/Gustash/Hyprshot/main/hyprshot
+sudo chmod +x /usr/local/bin/hyprshot
+
+# Hyprlock (PPA needed)
+sudo add-apt-repository -y ppa:hyprwm/ppa
+sudo apt update
+sudo apt install -y hyprlock
+
+# -----------------------------
+# Wlogout
+# -----------------------------
+sudo apt install -y wlogout
+
+
+# -----------------------------
+# ASCII image converter
+# -----------------------------
+wget -O /tmp/ascii-image-converter.deb \
+  https://github.com/TheZoraiz/ascii-image-converter/releases/latest/download/ascii-image-converter_amd64.deb
+sudo apt install -y /tmp/ascii-image-converter.deb
+
+# -----------------------------
+# Tur.so
+# -----------------------------
+curl -sSfL https://get.tur.so/install.sh | bash
+
+# -----------------------------
+# Cloudflare Tunnel
+# -----------------------------
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare.list
+sudo apt update
+sudo apt install -y cloudflared
+
+# -----------------------------
+# Avahi + mDNS
+# -----------------------------
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
+
