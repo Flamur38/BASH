@@ -1,127 +1,161 @@
--- LSP Support
+-- LSP Support (Neovim >= 0.11)
 return {
-    'neovim/nvim-lspconfig',
-    event = 'VeryLazy',
+    "neovim/nvim-lspconfig",
+    event = "VeryLazy",
     dependencies = {
-        { 'williamboman/mason.nvim' },
-        { 'williamboman/mason-lspconfig.nvim' },
-        { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-        { 'j-hui/fidget.nvim', opts = {} },
-        { 'folke/neodev.nvim', opts = {} },
+        { "williamboman/mason.nvim" },
+        { "williamboman/mason-lspconfig.nvim" },
+        { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+        { "j-hui/fidget.nvim", opts = {} },
+        { "folke/neodev.nvim", opts = {} },
+        { "hrsh7th/cmp-nvim-lsp" },
     },
-    config = function ()
-        -- Mason setup
-        require('mason').setup()
-        require('mason-lspconfig').setup({
+
+    config = function()
+        ----------------------------------------------------------------------
+        -- Mason
+        ----------------------------------------------------------------------
+        require("mason").setup()
+
+        require("mason-lspconfig").setup({
             ensure_installed = {
-                'bashls',
-                'lua_ls',
-                'pyright',
-                'lemminx',
-                'marksman',
-                'quick_lint_js',
-            }
+                "bashls",
+                "lua_ls",
+                "pyright",
+                "lemminx",
+                "marksman",
+                "quick_lint_js",
+            },
+            automatic_installation = false,
+            handlers = {}, -- 🚫 REQUIRED: disables deprecated lspconfig.setup()
         })
 
-        -- Mason tool installer setup
-        require('mason-tool-installer').setup({
+        require("mason-tool-installer").setup({
             ensure_installed = {
-                'black',
-                'debugpy',
-                'flake8',
-                'isort',
-                'mypy',
-                'pylint',
-                'pytest',
-                'ipython',
-                'jupyter',
+                "black",
+                "debugpy",
+                "flake8",
+                "isort",
+                "mypy",
+                "pylint",
+                "pytest",
+                "ipython",
+                "jupyter",
             },
         })
 
-        require('fidget').setup({})
+        require("fidget").setup({})
 
-        local lspconfig = require('lspconfig')
-        local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+        ----------------------------------------------------------------------
+        -- Capabilities
+        ----------------------------------------------------------------------
+        local capabilities =
+            require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-        -- Python path detection (for virtualenv support)
+        ----------------------------------------------------------------------
+        -- on_attach
+        ----------------------------------------------------------------------
+        local on_attach = function(_, bufnr)
+            local map = function(mode, lhs, rhs)
+                vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
+            end
+
+            map("n", "gd", vim.lsp.buf.definition)
+            map("n", "K", vim.lsp.buf.hover)
+            map("n", "gr", vim.lsp.buf.references)
+            map("n", "gi", vim.lsp.buf.implementation)
+            map("n", "<leader>rn", vim.lsp.buf.rename)
+            map("n", "<leader>ca", vim.lsp.buf.code_action)
+
+            -- Run pytest on current file
+            map("n", "<leader>tt", function()
+                vim.cmd("!pytest %")
+            end)
+        end
+
+        ----------------------------------------------------------------------
+        -- Python virtualenv detection
+        ----------------------------------------------------------------------
         local function get_python_path(workspace)
-            -- Use activated virtualenv
             if vim.env.VIRTUAL_ENV then
-                return vim.env.VIRTUAL_ENV .. '/bin/python'
+                return vim.env.VIRTUAL_ENV .. "/bin/python"
             end
-            -- Look for venv folder in workspace
-            local match = vim.fn.glob(workspace .. '/.venv/bin/python')
-            if match ~= '' then return match end
-            return 'python3' -- Default fallback
-        end
 
-        local lsp_attach = function(client, bufnr)
-            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                virtual_text = true,
-                signs = true,
-                update_in_insert = false,
-            })
-
-            local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-            local opts = { noremap = true, silent = true }
-
-            buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-            buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-            buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-            buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-            buf_set_keymap('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-            buf_set_keymap('n', '<leader>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-
-            -- This keymap binds <leader>tt to run pytest on the current Python file.
-            -- `!pytest %` invokes the shell command `pytest` on the current file in the buffer, 
-            -- and the result will be shown in the Neovim command line.
-            buf_set_keymap('n', '<leader>tt', '<Cmd>!pytest %<CR>', opts)
-
-            if client.server_capabilities.document_formatting then
-                vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+            local venv = vim.fn.glob(workspace .. "/.venv/bin/python")
+            if venv ~= "" then
+                return venv
             end
+
+            return "python3"
         end
 
-        -- Setup LSPs
-        local servers = { 'bashls', 'lua_ls', 'lemminx', 'marksman', 'quick_lint_js' }
-        for _, server in ipairs(servers) do
-            lspconfig[server].setup({
-                on_attach = lsp_attach,
-                capabilities = lsp_capabilities,
-            })
-        end
+        ----------------------------------------------------------------------
+        -- LSP server configs (NEW API)
+        ----------------------------------------------------------------------
+        vim.lsp.config("bashls", {
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
 
-        -- Lua-specific settings
-        lspconfig.lua_ls.setup({
-            on_attach = lsp_attach,
-            capabilities = lsp_capabilities,
+        vim.lsp.config("lemminx", {
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
+
+        vim.lsp.config("marksman", {
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
+
+        vim.lsp.config("quick_lint_js", {
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
+
+        vim.lsp.config("lua_ls", {
+            capabilities = capabilities,
+            on_attach = on_attach,
             settings = {
                 Lua = {
-                    diagnostics = { globals = {'vim'} },
+                    diagnostics = { globals = { "vim" } },
                 },
             },
         })
 
-        -- Python-specific settings
-        lspconfig.pyright.setup({
-            on_attach = lsp_attach,
-            capabilities = lsp_capabilities,
+        vim.lsp.config("pyright", {
+            capabilities = capabilities,
+            on_attach = on_attach,
             before_init = function(_, config)
-                local root_dir = config.root_dir or vim.fn.getcwd()
+                local root = config.root_dir or vim.fn.getcwd()
                 config.settings = {
                     python = {
-                        pythonPath = get_python_path(root_dir),
-                    }
+                        pythonPath = get_python_path(root),
+                    },
                 }
             end,
         })
 
-        -- Rounded borders for floating windows
-        local orig_util = vim.lsp.util.open_floating_preview
+        ----------------------------------------------------------------------
+        -- Enable servers
+        ----------------------------------------------------------------------
+        vim.lsp.enable({
+            "bashls",
+            "lua_ls",
+            "pyright",
+            "lemminx",
+            "marksman",
+            "quick_lint_js",
+        })
+
+        ----------------------------------------------------------------------
+        -- UI polish
+        ----------------------------------------------------------------------
+        local orig = vim.lsp.util.open_floating_preview
         function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
             opts = opts or {}
             opts.border = opts.border or "rounded"
-            return orig_util(contents, syntax, opts, ...)
+            return orig(contents, syntax, opts, ...)
         end
-    end
+    end,
 }
+
