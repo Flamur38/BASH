@@ -95,6 +95,7 @@ sync_tree "$DEV_ENV/env/.local" "$HOME/.local"
 copy_file "$DEV_ENV/env/.zsh_profile" "$HOME/.zsh_profile"
 copy_file "$DEV_ENV/env/.zshrc"        "$HOME/.zshrc"
 copy_file "$DEV_ENV/env/.xprofile"     "$HOME/.xprofile"
+copy_file "$DEV_ENV/env/.tmux.conf"     "$HOME/.tmux.conf"
 
 # Install dev-env helper script
 copy_file "$DEV_ENV/dev-env" "$HOME/.local/scripts/dev-env"

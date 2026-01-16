@@ -24,8 +24,6 @@ return {
         },
 
         highlight_groups = {
-          Function = { fg = "#E95420" },     -- Ubuntu orange
-          Identifier = { fg = "#77216F" },   -- Ubuntu aubergine
 
           -- Optional transparent tweaks
           Normal      = { bg = "none" },
