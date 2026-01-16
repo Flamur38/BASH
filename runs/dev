@@ -33,21 +33,11 @@ sudo apt install -y \
   arp-scan \
   avahi-daemon \
   avahi-utils \
-  nss-mdns \
   love \
   fonts-font-awesome \
   fonts-jetbrains-mono \
   waybar || true
 
-# -----------------------------
-# Stylua
-# -----------------------------
-if ! command -v stylua >/dev/null; then
-    curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip \
-      -o /tmp/stylua.zip
-    sudo unzip -o /tmp/stylua.zip -d /usr/local/bin
-    sudo chmod +x /usr/local/bin/stylua
-fi
 
 # -----------------------------
 # Go tools
@@ -72,51 +62,3 @@ if ! fc-list | grep -q "JetBrainsMono Nerd"; then
     unzip -o NerdFontsSymbolsOnly.zip
     fc-cache -fv
 fi
-
-# -----------------------------
-# Hyprland ecosystem (best effort)
-# -----------------------------
-sudo apt install -y \
-  hyprland \
-  hyprpaper \
-  grim \
-  slurp \
-  wl-clipboard \
-  wlogout || true
-
-# Hyprshot
-if [ ! -x /usr/local/bin/hyprshot ]; then
-    sudo wget -O /usr/local/bin/hyprshot \
-      https://raw.githubusercontent.com/Gustash/Hyprshot/main/hyprshot
-    sudo chmod +x /usr/local/bin/hyprshot
-fi
-
-# -----------------------------
-# ASCII image converter
-# -----------------------------
-if ! command -v ascii-image-converter >/dev/null; then
-    wget -O /tmp/ascii-image-converter.deb \
-      https://github.com/TheZoraiz/ascii-image-converter/releases/latest/download/ascii-image-converter_amd64.deb
-    sudo apt install -y /tmp/ascii-image-converter.deb
-fi
-
-# -----------------------------
-# Cloudflare Tunnel
-# -----------------------------
-if ! command -v cloudflared >/dev/null; then
-    curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg \
-      | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
-
-    echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] \
-https://pkg.cloudflare.com/ bookworm main" | \
-    sudo tee /etc/apt/sources.list.d/cloudflare.list
-
-    sudo apt update
-    sudo apt install -y cloudflared
-fi
-
-# -----------------------------
-# Avahi + mDNS
-# -----------------------------
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
