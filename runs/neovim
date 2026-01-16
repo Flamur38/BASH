@@ -3,42 +3,31 @@ set -e
 
 log() { echo "[neovim] $1"; }
 
-log "Installing build dependencies"
+log "Updating package index"
 sudo apt update
+
+log "Installing Neovim and dependencies"
 sudo apt install -y \
-  ninja-build gettext cmake unzip curl build-essential git \
-  lua5.1 liblua5.1-0-dev python3 python3-pip cargo \
-  ripgrep fd-find nodejs npm
+  neovim \
+  python3 python3-pip \
+  nodejs npm \
+  ripgrep fd-find \
+  git curl \
+  lua5.1 \
+  cargo
 
 # fd symlink (idempotent)
+log "Ensuring fd symlink"
 mkdir -p "$HOME/.local/bin"
 ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
-
-NVIM_SRC="$HOME/.local/src/neovim"
-
-if [ ! -d "$NVIM_SRC" ]; then
-  log "Cloning Neovim repository"
-  git clone https://github.com/neovim/neovim.git "$NVIM_SRC"
-fi
-
-cd "$NVIM_SRC"
-
-log "Fetching latest Neovim (master)"
-git fetch origin
-git checkout master
-
-log "Building Neovim"
-make distclean || true
-make CMAKE_BUILD_TYPE=Release
-
-log "Installing Neovim to /usr/local"
-sudo make install
 
 log "Installed Neovim version:"
 nvim --version | head -n1
 
 log "Syncing plugins (Lazy.nvim)"
 nvim --headless "+Lazy! sync" +qa || true
+
+log "Neovim setup complete"
 
 # #!/usr/bin/env bash
 #
