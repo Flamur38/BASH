@@ -62,8 +62,11 @@ for s in $runs_dir; do
         "$s"
     fi
 
-    # IMPORTANT: run only once
+# If grep is set, stop after first match
+if [[ -n "$grep" ]]; then
     break
+
+fi
 done
 
 
