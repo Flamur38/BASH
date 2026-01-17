@@ -56,23 +56,42 @@ fi
 if [ "$color_prompt" = yes ]; then
   # Orginal PS1:
   # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1='\[\033[0;34m\]┌──(\[\033[1;31m\]\u@\h\[\033[0;34m\])-[\[\033[1;38;5;231m\]\w\[\033[0;34m\]]\n└─\[\033[0;31m\]\[\033[1;31m\]\$\[\033[0m\] '
+# PS1='\[\033[0;34m\]┌──(\[\033[1;31m\]\u@\h\[\033[0;34m\])-[\[\033[1;38;5;231m\]\w\[\033[0;34m\]]\n└─\[\033[0;31m\]\[\033[1;31m\]\$\[\033[0m\] '
 
 # -------------------------------
 # Git branch with Sublime colors
 # -------------------------------
+git_ps1() {
+  local branch
+  branch=$(git branch --show-current 2>/dev/null) || return
+
+  local blue=$'\033[0;34m'
+  local green=$'\033[0;32m'
+  local red=$'\033[0;31m'
+  local reset=$'\033[0m'
+
+  if git diff --quiet 2>/dev/null; then
+    printf '%s' "${blue}-[${green}${branch}${blue}]${reset}"
+  else
+    printf '%s' "${blue}-[${red}${branch}*${blue}]${reset}"
+  fi
+}
+
 # git_ps1() {
 #   local branch
 #   branch=$(git branch --show-current 2>/dev/null) || return
 #
 #   if git diff --quiet 2>/dev/null; then
-#     # Sublime green  #99c794
-#     printf "\e[0;32m[%s]\e[0m" "$branch"
+#     printf '%s' "-[$branch]"
 #   else
-#     # Sublime red  #ec5f66
-#     printf "\e[38;2;236;95;102m[%s]\e[0m" "$branch"
+#     printf '%s' "-[$branch*]"
 #   fi
 # }
+
+
+PS1="\[\033[0;34m\]┌──(\[\033[1;31m\]\u@\h\[\033[0;34m\])-[\[\033[1;38;5;231m\]\w\[\033[0;34m\]]\$(git_ps1)\n└─\[\033[1;31m\]\$\[\033[0m\] "
+
+
 #
 # # -------------------------------
 # # HTB PS1
