@@ -1,29 +1,28 @@
-/* ===============================
-   Ubuntu 25.10 – Rofi Theme
-   Inspired by Yaru (GNOME)
-   =============================== */
+/* =================================
+   Ubuntu 25.10 – Clean Dark Rofi
+   ================================= */
 
 * {
-    font: "Ubuntu 13";
+    font: "Ubuntu 23";
 
-    bg:        #1E1E1E;
-    bg-alt:    #2A2A2A;
+    bg:        #1E1E1E;  /* Main background */
+    bg-alt:    #2A2A2A;  /* Input bar background */
 
-    fg:        #EDEDED;
-    fg-muted:  #B0B0B0;
+    fg:        #EDEDED;  /* Selected text */
+    fg-muted:  #C5C8C6;  /* Normal list text */
 
-    accent:    #E95420;   /* Ubuntu orange */
-    accent-2:  #77216F;   /* Ubuntu aubergine */
+    accent:    #E95420;  /* Ubuntu orange */
+    accent-2:  #77216F;  /* Ubuntu aubergine */
 
     border:    #3A3A3A;
 }
 
 /* -------------------------------
-   Main window
+   Window
 -------------------------------- */
 window {
     location: center;
-    width: 520px;
+    width: 1850px;
     border-radius: 14px;
     background-color: @bg;
     border: 2px;
@@ -42,7 +41,7 @@ inputbar {
 
 prompt {
     text-color: @accent;
-    font: "Ubuntu Bold 13";
+    font: "Ubuntu Bold 23";
 }
 
 entry {
@@ -52,7 +51,7 @@ entry {
 }
 
 /* -------------------------------
-   List view
+   List view (uniform background)
 -------------------------------- */
 listview {
     padding: 10px;
@@ -64,26 +63,30 @@ listview {
    List elements
 -------------------------------- */
 element {
-    padding: 10px 14px;
+    padding: 12px 18px;
     border-radius: 8px;
-    background-color: transparent;
-    text-color: @fg;
+    background-color: @bg;
 }
 
+/* Normal rows */
 element normal.normal {
-    background-color: transparent;
+    background-color: @bg;
+    text-color: @fg-muted;
 }
 
+/* Selected row */
 element selected.normal {
     background-color: @accent-2;
     text-color: #FFFFFF;
 }
 
+/* Selected + active (Enter target) */
 element selected.active {
     background-color: @accent;
     text-color: #FFFFFF;
 }
 
+/* Ensure text always follows element */
 element-text {
     background-color: inherit;
     text-color: inherit;
@@ -100,7 +103,7 @@ scrollbar {
 }
 
 /* -------------------------------
-   Message (errors / empty)
+   Message area
 -------------------------------- */
 message {
     padding: 12px;
