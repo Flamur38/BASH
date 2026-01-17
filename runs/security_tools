@@ -67,6 +67,6 @@ sudo apt install -y \
 log "Installing Snap packages"
 sudo snap install volatility-phocean
 sudo snap install autopsy
-
+sudo snap install crackmapexec
 log "Security tools installation completed"
 
