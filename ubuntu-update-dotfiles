@@ -12,5 +12,3 @@ cp ./env/.zshrc $HOME/.zshrc
 cp ./env/.xprofile $HOME/.xprofile
 cp ./dev-env $HOME/.local/scripts/dev-env
 
-
-
