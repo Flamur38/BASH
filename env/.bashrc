@@ -65,48 +65,20 @@ git_ps1() {
   local branch
   branch=$(git branch --show-current 2>/dev/null) || return
 
-  local blue=$'\033[0;34m'
-  local green=$'\033[0;32m'
-  local red=$'\033[0;31m'
-  local reset=$'\033[0m'
+  local blue='\033[0;34m'
+  local green='\033[0;32m'
+  local red='\033[0;31m'
+  local reset='\033[0m'
 
   if git diff --quiet 2>/dev/null; then
-    printf '%s' "${blue}-[${green}${branch}${blue}]${reset}"
+    # Prints the branch with color coding, no wrapping needed here
+    printf "${blue}-[${green}${branch}${blue}]${reset}"
   else
-    printf '%s' "${blue}-[${red}${branch}*${blue}]${reset}"
+    # Prints the branch with "*" if changes are pending
+    printf "${blue}-[${red}${branch}*${blue}]${reset}"
   fi
 }
-
-# git_ps1() {
-#   local branch
-#   branch=$(git branch --show-current 2>/dev/null) || return
-#
-#   if git diff --quiet 2>/dev/null; then
-#     printf '%s' "-[$branch]"
-#   else
-#     printf '%s' "-[$branch*]"
-#   fi
-# }
-
-
-PS1="\[\033[0;34m\]┌──(\[\033[1;31m\]\u@\h\[\033[0;34m\])-[\[\033[1;38;5;231m\]\w\[\033[0;34m\]]\$(git_ps1)\n└─\[\033[1;31m\]\$\[\033[0m\] "
-
-
-#
-# # -------------------------------
-# # HTB PS1
-# # -------------------------------
-# PS1="\[\e[1;34m\][\$(date +\"%d-%b-%y %T %Z\")] \
-# \[\e[38;5;231m\]\w \$(git_ps1)\
-# \[\e[38;5;190m\]
-# >>> \[\e[00m\]"
-
-
-# OneLiner # PS1: 18:47:11 flamy:Documents (main)$
-# PS1="\[\e[31m\]\$(date +\"%H:%M:%S\")\[\e[0m\] \
-# \[\e[1;38;5;26m\]\u\[\e[0m\]:\
-# \[\e[1;38;5;245m\]\W\[\e[0m\]\
-# \[\e[00m\]\$(git_ps1 '(%s)')\[\e[0m\]\$ "
+PS1="\[\033[0;34m\]┌──(\[\033[1;31m\]\u@\h\[\033[0;34m\])-[\[\033[1;38;5;231m\]\w\[\033[0;34m\]]\[\$(git_ps1)\]\n\[\033[0;34m\]└─\[\033[1;31m\]\$\[\033[0m\] "
 
 
 else
@@ -174,5 +146,6 @@ bind 'set completion-ignore-case on'
 
 
 # # Add empty line before prompt
-PROMPT_COMMAND='printf "\n"'
+# PROMPT_COMMAND='printf "\033[0m\n"'
 
+PROMPT_COMMAND='printf "\n"'
