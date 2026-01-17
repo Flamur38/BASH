@@ -1,0 +1,111 @@
+/* ===============================
+   Ubuntu 25.10 – Rofi Theme
+   Inspired by Yaru (GNOME)
+   =============================== */
+
+* {
+    font: "Ubuntu 13";
+
+    bg:        #1E1E1E;
+    bg-alt:    #2A2A2A;
+
+    fg:        #EDEDED;
+    fg-muted:  #B0B0B0;
+
+    accent:    #E95420;   /* Ubuntu orange */
+    accent-2:  #77216F;   /* Ubuntu aubergine */
+
+    border:    #3A3A3A;
+}
+
+/* -------------------------------
+   Main window
+-------------------------------- */
+window {
+    location: center;
+    width: 520px;
+    border-radius: 14px;
+    background-color: @bg;
+    border: 2px;
+    border-color: @accent-2;
+}
+
+/* -------------------------------
+   Input bar
+-------------------------------- */
+inputbar {
+    padding: 14px;
+    spacing: 10px;
+    background-color: @bg-alt;
+    border-radius: 10px;
+}
+
+prompt {
+    text-color: @accent;
+    font: "Ubuntu Bold 13";
+}
+
+entry {
+    text-color: @fg;
+    placeholder: "Search…";
+    placeholder-color: @fg-muted;
+}
+
+/* -------------------------------
+   List view
+-------------------------------- */
+listview {
+    padding: 10px;
+    spacing: 6px;
+    background-color: @bg;
+}
+
+/* -------------------------------
+   List elements
+-------------------------------- */
+element {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element normal.normal {
+    background-color: transparent;
+}
+
+element selected.normal {
+    background-color: @accent-2;
+    text-color: #FFFFFF;
+}
+
+element selected.active {
+    background-color: @accent;
+    text-color: #FFFFFF;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+/* -------------------------------
+   Scrollbar
+-------------------------------- */
+scrollbar {
+    width: 6px;
+    handle-color: @accent-2;
+    handle-width: 6px;
+    background-color: transparent;
+}
+
+/* -------------------------------
+   Message (errors / empty)
+-------------------------------- */
+message {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: @bg-alt;
+    text-color: @fg-muted;
+}
+
