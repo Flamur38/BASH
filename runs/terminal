@@ -16,17 +16,29 @@ REAL_HOME="$(getent passwd "$REAL_USER" | cut -d: -f6)"
 FLAMY_UUID="b1e3e5d0-ffaf-4b77-9a44-7f9c3b0a7f10"
 INCIDENT_UUID="c7d9f0f2-9c33-4c3e-9b63-3f63a3c55c44"
 
+# ------------------------------------------
+# Resolve repo paths
+# ------------------------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CONF_DIR="$REPO_ROOT/env/.config/terminal"
+
+# ------------------------------------------
+# Sanity check profile files
+# ------------------------------------------
+[[ -f "$CONF_DIR/flamy-profile.conf" ]] || { echo "[!] Missing $CONF_DIR/flamy-profile.conf"; exit 1; }
+[[ -f "$CONF_DIR/incident-profile.conf" ]] || { echo "[!] Missing $CONF_DIR/incident-profile.conf"; exit 1; }
 
 # ------------------------------------------
 # Install packages
 # ------------------------------------------
-log "Installing GNOME Terminal and fonts"
+log "Installing GNOME Terminal, fonts, and dbus-x11"
 sudo apt update
 sudo apt install -y \
   gnome-terminal \
   fonts-jetbrains-mono \
-  fonts-hack
+  fonts-hack \
+  dbus-x11
 
 # ------------------------------------------
 # Ensure ~/.config exists
@@ -41,10 +53,9 @@ sudo chown "$REAL_USER:$REAL_USER" "$REAL_HOME/.config"
 log "Registering GNOME Terminal profiles"
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf write /org/gnome/terminal/legacy/profiles:/list "[
-    '$FLAMY_UUID',
-    '$INCIDENT_UUID'
-  ]"
+  dbus-launch dconf write \
+  /org/gnome/terminal/legacy/profiles:/list \
+  "[ '$FLAMY_UUID', '$INCIDENT_UUID' ]"
 
 # ------------------------------------------
 # Set default profile (flamy)
@@ -52,7 +63,9 @@ sudo -u "$REAL_USER" \
 log "Setting flamy as default profile"
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf write /org/gnome/terminal/legacy/profiles:/default "'$FLAMY_UUID'"
+  dbus-launch dconf write \
+  /org/gnome/terminal/legacy/profiles:/default \
+  "'$FLAMY_UUID'"
 
 # ------------------------------------------
 # Load profile configs
@@ -60,14 +73,16 @@ sudo -u "$REAL_USER" \
 log "Loading flamy profile"
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf load "/org/gnome/terminal/legacy/profiles:/:$FLAMY_UUID/" \
-  < "$SCRIPT_DIR/files/flamy-profile.conf"
+  dbus-launch dconf load \
+  "/org/gnome/terminal/legacy/profiles:/:$FLAMY_UUID/" \
+  < "$CONF_DIR/flamy-profile.conf"
 
 log "Loading incident profile"
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf load "/org/gnome/terminal/legacy/profiles:/:$INCIDENT_UUID/" \
-  < "$SCRIPT_DIR/files/incident-profile.conf"
+  dbus-launch dconf load \
+  "/org/gnome/terminal/legacy/profiles:/:$INCIDENT_UUID/" \
+  < "$CONF_DIR/incident-profile.conf"
 
 # ------------------------------------------
 # Set Hack as default font for flamy profile
@@ -75,13 +90,13 @@ sudo -u "$REAL_USER" \
 log "Setting Hack as default terminal font"
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf write \
+  dbus-launch dconf write \
   "/org/gnome/terminal/legacy/profiles:/:$FLAMY_UUID/font" \
-  "'Hack 11'"
+  "'Hack 15'"
 
 sudo -u "$REAL_USER" \
   HOME="$REAL_HOME" USER="$REAL_USER" \
-  dconf write \
+  dbus-launch dconf write \
   "/org/gnome/terminal/legacy/profiles:/:$FLAMY_UUID/use-system-font" \
   "false"
 

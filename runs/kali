@@ -6,11 +6,13 @@ log() {
 }
 
 # --------------------------------
-# Check Docker
+# Check Docker (non-fatal)
 # --------------------------------
-if ! command -v docker >/dev/null 2>&1; then
-  echo "[!] Docker not found. Install Docker first."
-  exit 1
+if ! docker info >/dev/null 2>&1; then
+  echo "[kali-docker] Docker not accessible"
+  echo "[kali-docker] Hint: log out & log back in, or run: newgrp docker"
+  echo "[kali-docker] Skipping Kali setup for now"
+  exit 0
 fi
 
 # --------------------------------

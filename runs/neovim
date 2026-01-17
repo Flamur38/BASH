@@ -3,6 +3,32 @@ set -e
 
 log() { echo "[neovim] $1"; }
 
+MIN_VERSION="0.12"
+NVIM_PREFIX="/usr/local"
+NVIM_SRC="$HOME/.local/src/neovim"
+
+# --------------------------------
+# Check installed Neovim version
+# --------------------------------
+if command -v nvim >/dev/null 2>&1; then
+  RAW_VERSION="$(nvim --version | head -n1)"
+  INSTALLED_VERSION="$(echo "$RAW_VERSION" | sed -n 's/.*v\([0-9]\+\.[0-9]\+\).*/\1/p')"
+
+  log "Detected Neovim version: $INSTALLED_VERSION"
+
+  if dpkg --compare-versions "$INSTALLED_VERSION" ge "$MIN_VERSION"; then
+    log "Neovim >= $MIN_VERSION detected — skipping build"
+    exit 0
+  else
+    log "Neovim < $MIN_VERSION detected — rebuilding"
+  fi
+else
+  log "Neovim not installed — building"
+fi
+
+# --------------------------------
+# Install build dependencies
+# --------------------------------
 log "Installing build dependencies"
 sudo apt update
 sudo apt install -y \
@@ -14,8 +40,9 @@ sudo apt install -y \
 mkdir -p "$HOME/.local/bin"
 ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
 
-NVIM_SRC="$HOME/.local/src/neovim"
-
+# --------------------------------
+# Clone or update Neovim source
+# --------------------------------
 if [ ! -d "$NVIM_SRC" ]; then
   log "Cloning Neovim repository"
   git clone https://github.com/neovim/neovim.git "$NVIM_SRC"
@@ -23,15 +50,22 @@ fi
 
 cd "$NVIM_SRC"
 
-log "Fetching latest Neovim (master)"
+log "Updating Neovim source (master)"
 git fetch origin
 git checkout master
+git pull --ff-only
 
-log "Building Neovim"
+# --------------------------------
+# Build Neovim
+# --------------------------------
+log "Building Neovim (Release)"
 make distclean || true
 make CMAKE_BUILD_TYPE=Release
 
-log "Installing Neovim to /usr/local"
+# --------------------------------
+# Install
+# --------------------------------
+log "Installing Neovim to $NVIM_PREFIX"
 sudo make install
 
 log "Installed Neovim version:"
