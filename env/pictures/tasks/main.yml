@@ -1,0 +1,20 @@
+---
+# ==================================================
+# User pictures / wallpapers
+# ==================================================
+
+- name: Ensure Pictures directory exists
+  ansible.builtin.file:
+    path: "/home/{{ ansible_env.SUDO_USER }}/Pictures"
+    state: directory
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
+    mode: "0755"
+
+- name: Deploy Pictures
+  ansible.builtin.copy:
+    src: Pictures/
+    dest: "/home/{{ ansible_env.SUDO_USER }}/Pictures/"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
+    mode: "0644"

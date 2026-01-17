@@ -91,6 +91,9 @@ sync_tree "$DEV_ENV/env/.config" "$XDG_CONFIG_HOME"
 # Sync ~/.local/*
 sync_tree "$DEV_ENV/env/.local" "$HOME/.local"
 
+# Copy folder
+sync_tree "$DEV_ENV/env/pictures" "$HOME/Pictures"
+
 # Copy shell & profile files
 copy_file "$DEV_ENV/env/.zsh_profile" "$HOME/.zsh_profile"
 copy_file "$DEV_ENV/env/.zshrc"        "$HOME/.zshrc"
