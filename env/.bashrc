@@ -23,9 +23,6 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -152,16 +149,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# # Case-insensitive tab completion
-# bind 'set completion-ignore-case on'
-#
-# # Show all matches immediately
-# bind 'set show-all-if-ambiguous on'
-#
-# # Better tab cycling
-# bind 'TAB:menu-complete'
-
-# ===== Readline (TAB completion like zsh) =====
 
 # Ignore case when completing
 bind 'set completion-ignore-case on'
