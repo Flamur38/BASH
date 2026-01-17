@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -e
+
+log() {
+  echo "[security-tools] $1"
+}
+
+# ----------------------------------------
+# Update system
+# ----------------------------------------
+log "Updating package index"
+sudo apt update
+
+# ----------------------------------------
+# Core networking & investigation utilities
+# ----------------------------------------
+log "Installing core security utilities"
+sudo apt install -y \
+  tcpdump \
+  nmap \
+  netcat-openbsd \
+  socat \
+  jq \
+  whois \
+  dnsutils
+
+# ----------------------------------------
+# Zeek (not available on Ubuntu 24.04)
+# ----------------------------------------
+log "Skipping Zeek install (not available on Ubuntu 24.04)"
+
+# ----------------------------------------
+# Blue-team defensive tools
+# ----------------------------------------
+log "Installing blue-team defensive tools"
+sudo apt install -y \
+  suricata \
+  auditd \
+  fail2ban \
+  scalpel \
+  steghide
+
+# ----------------------------------------
+# Pentesting tools (CLI)
+# ----------------------------------------
+log "Installing pentesting tools"
+sudo apt install -y \
+  hydra \
+  gobuster \
+  nikto \
+  sqlmap \
+  wfuzz
+
+# ----------------------------------------
+# Malware & file analysis tools
+# ----------------------------------------
+log "Installing malware & file analysis tools"
+sudo apt install -y \
+  yara \
+  exiftool \
+  binwalk \
+  binutils
+
+# ----------------------------------------
+# Snap packages
+# ----------------------------------------
+log "Installing Snap packages"
+sudo snap install volatility-phocean
+sudo snap install autopsy
+
+log "Security tools installation completed"
+
