@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+cyan="\e[1;36m"
+
 status() {
-    echo "[zsh] $1"
+    echo -e "\n${cyan}[zsh]${reset} ${cyan}$1${reset}"
 }
 
 # 1. Install zsh
