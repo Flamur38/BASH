@@ -38,7 +38,14 @@ sudo apt install -y \
   auditd \
   fail2ban \
   scalpel \
-  steghide
+  steghide \
+  rsyslog \
+  logrotate \
+  sysstat \
+  htop \
+  lsof \
+  strace \
+  inotify-tools
 
 # ----------------------------------------
 # Pentesting tools (CLI)
@@ -49,7 +56,10 @@ sudo apt install -y \
   gobuster \
   nikto \
   sqlmap \
-  wfuzz
+  wfuzz \
+  smbclient \
+  
+
 
 # ----------------------------------------
 # Malware & file analysis tools
@@ -68,5 +78,6 @@ log "Installing Snap packages"
 sudo snap install volatility-phocean
 sudo snap install autopsy
 sudo snap install crackmapexec
+sudo snap install metasploit-framework
 log "Security tools installation completed"
 

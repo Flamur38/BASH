@@ -17,7 +17,7 @@ install() {
         echo "[python-tools] $name already installed"
     else
         echo "[python-tools] Installing $name"
-        pipx install "$src"
+        pipx install --include-deps "$src"
     fi
 }
 
@@ -26,6 +26,8 @@ install sigma-cli sigma-cli
 install oletools oletools
 install flare-floss flare-floss
 install flare-capa flare-capa
+install pysigma pysigma
+install impacket impacket
 
 # ---- AD / Blue Team ----
 install certipy-ad git+https://github.com/ly4k/Certipy.git
