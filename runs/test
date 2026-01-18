@@ -1,36 +1,39 @@
 #!/usr/bin/env bash
 set -e
 
-# ---- colors ----
+# ----------------------------------------
+# colors & logging
+# ----------------------------------------
 GREEN="\e[1;32m"
+CYAN="\e[1;36m"
 YELLOW="\e[1;33m"
 RESET="\e[0m"
 
-PREFIX="security_tools"
+PREFIX="SECURITY"
 
+section() {
+  echo -e "\n${CYAN}[${PREFIX}]${RESET} ${CYAN}$1${RESET}"
+}
 
 log() {
-  echo -e "\n${GREEN}[${PREFIX}]${RESET} ${GREEN}$1${RESET}"
+  echo -e "  ${GREEN}•${RESET} $1"
 }
 
 warn() {
-  echo -e "${YELLOW}[${PREFIX}]${RESET} ${YELLOW}$1${RESET}"
+  echo -e "  ${YELLOW}!${RESET} $1"
 }
 
-# log() {
-#   echo "[security-tools] $1"
-# }
-
 # ----------------------------------------
-# Update system
+# update system
 # ----------------------------------------
+section "Update system"
 log "Updating package index"
 sudo apt update
 
 # ----------------------------------------
-# Core networking & investigation utilities
+# core networking & investigation utilities
 # ----------------------------------------
-log "Installing core security utilities"
+section "Core networking & investigation utilities"
 sudo apt install -y \
   tcpdump \
   nmap \
@@ -41,14 +44,15 @@ sudo apt install -y \
   dnsutils
 
 # ----------------------------------------
-# Zeek (not available on Ubuntu 24.04)
+# zeek
 # ----------------------------------------
-warn "Skipping Zeek install (not available on Ubuntu 24.04)"
+section "Zeek"
+warn "Skipping Zeek (not available on Ubuntu 24.04)"
 
 # ----------------------------------------
-# Blue-team defensive tools
+# blue-team defensive tools
 # ----------------------------------------
-log "Installing blue-team defensive tools"
+section "Blue-team defensive tools"
 sudo apt install -y \
   suricata \
   auditd \
@@ -64,23 +68,21 @@ sudo apt install -y \
   inotify-tools
 
 # ----------------------------------------
-# Pentesting tools (CLI)
+# pentesting tools
 # ----------------------------------------
-log "Installing pentesting tools"
+section "Pentesting tools"
 sudo apt install -y \
   hydra \
   gobuster \
   nikto \
   sqlmap \
   wfuzz \
-  smbclient \
-  
-
+  smbclient
 
 # ----------------------------------------
-# Malware & file analysis tools
+# malware & file analysis tools
 # ----------------------------------------
-log "Installing malware & file analysis tools"
+section "Malware & file analysis tools"
 sudo apt install -y \
   yara \
   exiftool \
@@ -88,12 +90,13 @@ sudo apt install -y \
   binutils
 
 # ----------------------------------------
-# Snap packages
+# snap packages
 # ----------------------------------------
-log "Installing Snap packages"
+section "Snap packages"
 sudo snap install volatility-phocean
 sudo snap install autopsy
 sudo snap install crackmapexec
 sudo snap install metasploit-framework
-log "Security tools installation completed"
+
+section "Security tools installation completed"
 
