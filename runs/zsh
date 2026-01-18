@@ -2,6 +2,7 @@
 set -e
 
 cyan="\e[1;36m"
+reset="\e[0m"
 
 status() {
     echo -e "\n${cyan}[zsh]${reset} ${cyan}$1${reset}"
