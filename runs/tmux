@@ -27,21 +27,6 @@ else
     status "TPM already installed"
 fi
 
-# ---------------------------------------------------
-# Install plugins safely
-# ---------------------------------------------------
-
-# Do NOT run TPM inside tmux
-if [[ -n "$TMUX" ]]; then
-    status "Inside tmux session, skipping TPM install"
-    exit 0
-fi
-
-# Do NOT run if TPM session already exists
-if tmux has-session -t __tpm_install 2>/dev/null; then
-    status "TPM install session already running, skipping"
-    exit 0
-fi
 
 status "Installing tmux plugins"
 "$TPM_DIR/bin/install_plugins"
