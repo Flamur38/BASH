@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+cyan="\e[1;36m"
+reset="\e[0m"
+
 status() {
-    echo "[tmux] $1"
+    echo -e "\n${cyan}[tmux]${reset} ${cyan}$1${reset}"
 }
 
 # ---------------------------------------------------
