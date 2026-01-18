@@ -6,8 +6,7 @@ reset="\e[0m"
 
 log() {
     echo -e "\n${cyan}[neovim]${reset} ${cyan}$1${reset}"
-
-log() { echo "[neovim] $1"; }
+}
 
 MIN_VERSION="0.12"
 NVIM_PREFIX="/usr/local"
