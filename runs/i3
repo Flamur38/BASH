@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo -e "\e[1;36m [installing i3]\e[0m"
+
 sudo apt install -y i3 i3-wm i3status xbacklight pavucontrol pulseaudio-utils rofi
 
 
