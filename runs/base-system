@@ -67,3 +67,4 @@ sudo localectl set-locale LANG="$LOCALE"
 
 log "Base system configuration completed"
 
+echo -e "\e[1;32m[base-system DONE]\e[0m"
