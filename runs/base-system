@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
+GREEN="\e[1;32m"
+CYAN="\e[1;36m"
+RESET="\e[0m"
+PREFIX="base-system"
+
+
+
 log() {
-  echo "[base-system] $1"
+  echo -e "\n${CYAN}[${PREFIX}]${RESET} ${CYAN}$1${RESET}"
 }
+
 
 # ----------------------------------------
 # Update apt cache
@@ -38,7 +46,7 @@ sudo apt install -y \
   picom \
   arandr \
   tshark \
-  polybar
+  polybar \
 
 # ----------------------------------------
 # Timezone

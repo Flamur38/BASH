@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-# ==========================================
-# GNOME Terminal (Flamy + Incident profiles)
-# ==========================================
+cyan="\e[1;36m"
+reset="\e[0m"
+prefix="gnome-terminal"
 
 log() {
-  echo "[gnome-terminal] $1"
+    echo -e "\n${cyan}[${prefix}]${reset} ${cyan}$1${reset}"
 }
 
 # Detect real user (important when running with sudo)
